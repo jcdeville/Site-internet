@@ -3,7 +3,6 @@ require("fonction.php");
 include("entete.php");
 
 // Inscrit la personne si les renseignements sont donnés
-
 if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
   if(strlen($_POST['pseudo']) >= 4 && strlen($_POST['mot_de_passe']) >= 6){
     inscription($_POST['pseudo'],$_POST['mot_de_passe'],$_POST['email']);
@@ -12,20 +11,13 @@ if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
     echo "Veuillez respecter les conditions d'inscription";
   }
 }
-
-// Inscrit la personne si les renseignements sont donnés
-
-
 ?>
 
 <body>
   <div class="container">
-
     <h1>Page d'inscription</h1>
 
-    <?php
-    menu();
-    ?>
+    <?php menu();?>
 
 
     <form action="inscription.php"  method="POST">

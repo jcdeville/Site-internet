@@ -1,10 +1,7 @@
 <?php
 session_start();
 require("fonction.php");
-if(isset($_GET['deconnexion'])){
-  session_destroy();
-  session_start();
-}
+deconnexion();
 include("entete.php");
 ?>
 
@@ -12,7 +9,11 @@ include("entete.php");
   <div class="container">
     <h1>Page de connexion</h1>
 
-    <?php menu();
+    <?php menu();?>
+
+    <section style="border:solid; margin:10px; padding:15px;">
+
+    <?php
 
     if (!isset($_POST['pseudo'],$_POST['mot_de_passe'])){
       ?>
@@ -64,6 +65,7 @@ include("entete.php");
     }
 
   ?>
+</section>
 
 </div>
 

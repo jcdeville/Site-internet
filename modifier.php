@@ -5,18 +5,13 @@ testacces();
 include("entete.php");
 
 // Regarde si une modification a été faite
-
 if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
   modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
 }
 
-
 if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
   modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
 }
-
-// Regarde si une modification a été faite
-
 ?>
 
 <body>
@@ -28,7 +23,7 @@ if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
     if($_GET['modification']=='lien'){
       ?>
 
-      <section>
+      <section style="border:solid; margin:10px; padding:15px;">
         <?php
         $connexion = connexion();
         $requete = "SELECT * FROM links WHERE id_link='".$_GET['id_link']."'";
@@ -50,7 +45,6 @@ if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
       <?php
     }
     else{
-
       ?>
 
       <section>
@@ -76,12 +70,6 @@ if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
     }
     ?>
 
-
-    <!-- Permet de voir le contenu de l'article et de le modifier -->
-
-
-
-    <!-- Permet de voir le contenu de l'article et de le modifier -->
 
   </div>
 </body>
