@@ -41,9 +41,9 @@ function droit($id_object,$type_object){
 function menu(){
   ?>
   <nav style="border-bottom: solid;">
-  <a href="accueil.php">Accueil</a>
-  <a href="profil.php">Profil</a>
-  <a href="connexion.php?deconnexion=ok">Deconnexion</a>
+    <a href="accueil.php">Accueil</a>
+    <a href="profil.php">Profil</a>
+    <a href="connexion.php?deconnexion=ok">Deconnexion</a>
   </nav>
   <?php
 }
@@ -66,7 +66,7 @@ function inscription($pseudo,$mot_de_passe,$email){
   <script>
   var stay=alert("Inscription réussie")
   if (!stay)
-    window.location="accueil.php"
+  window.location="accueil.php"
   </script>
 
   <?php
@@ -245,35 +245,35 @@ function zone_de_vote($id_link,$type_vote,$id_object){
         <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('comments',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
         <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('comments',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
         <input type="submit" name="vote_comment" value="Voter">
-      <?php
+        <?php
       }
       if($type_vote=='links'){
         ?>
         <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('links',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
         <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('links',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
         <input type="submit" name="vote_lien" value="Voter">
-      <?php
+        <?php
       }
       ?>
     </form>
 
     <div style="border:solid; margin:10px; padding:15px;">
       <p>Il y a <?=compteur_vote($type_vote,$id_object,'Positif')?> votes positifs</P>
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</P>
-    </div>
-  </div>
-  <?php
-}
+        <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</P>
+        </div>
+      </div>
+      <?php
+    }
 
 
-function compteur_vote($type_vote,$id_object,$value_vote){
-  $connexion = connexion();
-  $requete = "SELECT COUNT(*) FROM vote WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
-  $action = mysqli_query($connexion,$requete);
-  $resultat = mysqli_fetch_assoc($action);
-  mysqli_close($connexion);
-  return $resultat['COUNT(*)'];
-}
+    function compteur_vote($type_vote,$id_object,$value_vote){
+      $connexion = connexion();
+      $requete = "SELECT COUNT(*) FROM vote WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
+      $action = mysqli_query($connexion,$requete);
+      $resultat = mysqli_fetch_assoc($action);
+      mysqli_close($connexion);
+      return $resultat['COUNT(*)'];
+    }
 
 
-?>
+    ?>

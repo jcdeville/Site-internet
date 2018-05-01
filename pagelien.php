@@ -11,7 +11,7 @@ if (isset($_GET['kill_comment'])){
   supprimer_commentaire($_GET['id_comment'],$_GET['id_link']);
 }
 if(isset($_GET['commentaire'])){
-  ajouter_commentaire($_GET['id_link'],$_GET['commentaire']);
+    ajouter_commentaire($_GET['id_link'],$_GET['commentaire']);
 }
 if(isset($_GET['vote_lien'])){
   ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
@@ -118,30 +118,32 @@ if(isset($_GET['vote_comment'])){
             ?>
           </div>
           <div class="col">
-            <?php
 
+            <?php
             // Affiche la zone de vote pour les commentaires
             zone_de_vote($_GET['id_link'],'comments',$commentaire['id_comment']);
+            ?>
+          </div>
 
+            <?php
           }
           ?>
-        </div>
       </section>
 
 
 
-    <!-- Section dédiée à l'ajout d'un commentaire-->
+      <!-- Section dédiée à l'ajout d'un commentaire-->
 
-    <section style="border:solid; margin:10px; padding:15px;">
-      <h2>Ajouter un commentaire</h2>
-      <form action="pagelien.php"  method="GET">
-        <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-        <p>Votre commentaire : <input type="text" name="commentaire" required/></p>
-        <p><input type="submit" value="Ajouter"></p>
-      </form>
-    </section>
+      <section style="border:solid; margin:10px; padding:15px;">
+        <h2>Ajouter un commentaire</h2>
+        <form action="pagelien.php"  method="GET">
+          <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+          <p>Votre commentaire : <input type="text" name="commentaire" required/></p>
+          <p><input type="submit" value="Ajouter"></p>
+        </form>
+      </section>
 
 
-  </div>
-</body>
-</html>
+    </div>
+  </body>
+  </html>

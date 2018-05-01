@@ -24,14 +24,14 @@ if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
 
     <section style="border :solid; margin:10px; padding:15px;">
 
-    <form action="inscription.php"  method="POST">
-      <p>Votre pseudo : <input type="text" name="pseudo" placeholder="4 caractères minimum" required/></p>
-      <p>Votre email : <input type="mail" name="email" required/></p>
-      <p>Votre mot_de_passe : <input type="password" name="mot_de_passe" placeholder="6 caractères minimum" required/></p>
-      <p><input type="submit" value="OK"></p>
-    </form>
+      <form action="inscription.php"  method="POST">
+        <p>Votre pseudo : <input type="text" name="pseudo" placeholder="4 caractères minimum" required/></p>
+        <p>Votre email : <input type="mail" name="email" required/></p>
+        <p>Votre mot_de_passe : <input type="password" name="mot_de_passe" placeholder="6 caractères minimum" required/></p>
+        <p><input type="submit" value="OK"></p>
+      </form>
 
-    <a href="connexion.php">Connexion</a>
+      <a href="connexion.php">Connexion</a>
 
 
     </section>

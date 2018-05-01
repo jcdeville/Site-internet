@@ -11,7 +11,7 @@ include("entete.php");
     <h1>Page de profil</h1>
 
     <?php menu();?>
-
+    
     <!-- Informations profil -->
 
     <section style="border:solid; margin:10px; padding:15px;">
