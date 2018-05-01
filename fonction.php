@@ -19,12 +19,12 @@ function testacces(){
   }
 }
 
-function droit($id_object,$type){
+function droit($id_object,$type_object){
   $connexion = connexion();
-  if($type=='lien'){
+  if($type_object=='link'){
     $requete = "SELECT * FROM links WHERE id_link='".$id_object."'";
   }
-  elseif($type=='commentaire'){
+  elseif($type_object=='comment'){
     $requete = "SELECT * FROM comments WHERE id_comment='".$id_object."'";
   }
   $action = mysqli_query($connexion,$requete);
@@ -73,61 +73,34 @@ function inscription($pseudo,$mot_de_passe,$email){
 }
 
 
-function afficher_un_article($id_link){
+function article($id_link){
   $connexion = connexion();
   $requete = "SELECT * FROM links WHERE id_link='".$id_link."'";
   $action = mysqli_query($connexion,$requete);
-  $resultat=mysqli_fetch_assoc($action);
-  if($resultat){
-    ?>
-    <div class="row" style="border-top : solid;">
-      <article>
-        <a class="nav-link active" href="<?=$resultat['link']?>"><?="Lien = ".$resultat['link']?></a><br/>
-        <span><?= "Date = ".$resultat['date']?></span><br/>
-        <span><?="Utilisateur = ".$resultat['id_user']?></span><br/>
-        <span><?= "Commentaire de l'utilisateur = ".$resultat['comment_user']?></span>
-      </arcticle>
-    </div>
-    <?php
-  }
-  mysqli_free_result($action);
+  $article = mysqli_fetch_assoc($action);
   mysqli_close($connexion);
+  return $article;
 }
 
 
 function afficher_articles($requete){
   $connexion = connexion();
-  $action = mysqli_query($connexion,$requete);
-  $resultat=mysqli_fetch_assoc($action);
-  while($resultat){
-    afficher_un_article($resultat['id_link']);
-    ?>
-    <a href="pagelien.php?id_link=<?=$resultat['id_link']?>">Ouvrir page du lien</a>
-    <?php
-    $resultat=mysqli_fetch_assoc($action);
-  }
-  mysqli_free_result($action);
+  $articles = mysqli_query($connexion,$requete);
   mysqli_close($connexion);
+  return $articles;
 }
 
 function ajouter_article($link,$commentaire){
-  $connexion=connexion();
+  $connexion = connexion();
   $requete = "SELECT * FROM links WHERE link='".$link."'";
   $action = mysqli_query($connexion,$requete);
   $resultat = mysqli_fetch_assoc($action);
   if(!$resultat){
     $insertion = "INSERT INTO links(link,date,id_user,comment_user) VALUES  ('".$link."','".date("Y-m-d H:i:s")."','".$_SESSION['id_user']."','".$commentaire."')";
-    $action=mysqli_query($connexion,$insertion);
+    $action = mysqli_prepare($connexion,$insertion);
+    mysqli_stmt_execute($action);
   }
-  else{
-    ?>
-    <script>
-    var stay=alert("Lien déjà existant!")
-    if (!stay)
-    window.location="accueil.php"
-    </script>
-    <?php
-  }
+  mysqli_free_result($action);
   mysqli_close($connexion);
   header("Location:accueil.php");
   exit;
@@ -148,76 +121,53 @@ function supprimer_article($id_link){
   $supprimer = "DELETE FROM comments WHERE id_link='".$id_link."'";
   $action = mysqli_prepare($connexion,$supprimer);
   mysqli_stmt_execute($action);
-  $requete = "DELETE FROM links WHERE id_link='".$id_link."'";
-  $action = mysqli_prepare($connexion,$requete);
+  $supprimer = "DELETE FROM vote WHERE id_link='".$id_link."'";
+  $action = mysqli_prepare($connexion,$supprimer);
+  mysqli_stmt_execute($action);
+  $supprimer = "DELETE FROM links WHERE id_link='".$id_link."'";
+  $action = mysqli_prepare($connexion,$supprimer);
   mysqli_stmt_execute($action);
   mysqli_close($connexion);
   header("Location:accueil.php");
   exit;
 }
 
-function afficher_un_commentaire($id_comment){
+
+function commentaire($id_comment){
   $connexion = connexion();
   $requete = "SELECT * FROM comments WHERE id_comment='".$id_comment."'";
   $action = mysqli_query($connexion,$requete);
-  $resultat=mysqli_fetch_assoc($action);
+  $commentaire = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $commentaire;
+}
 
-  // Récupère le pseudo de l'utilisateur ayant posté le commentaire
-  $requete = "SELECT * FROM users WHERE id_user='".$resultat['id_user']."'";
+function pseudo_de_user($id_user){
+  $connexion = connexion();
+  $requete = "SELECT * FROM users WHERE id_user='".$id_user."'";
   $action = mysqli_query($connexion,$requete);
   $user = mysqli_fetch_assoc($action);
-  if($resultat){
-    ?>
-    <div class="row" style="border-bottom : solid; border-color:red;">
-      <article>
-        <span><?= "Contenu du commentaire = ".$resultat['content_comment']?></span><br/>
-        <span><?= "Date = ".$resultat['date']?></span><br/>
-        <span><?="Utilisateur = ".$user['pseudo']?></span>
-      </arcticle>
-
-      <?php
-      zone_de_vote($resultat['id_link'],'comments',$id_comment);
-
-      // Dans le cas où l'utilisateur est propriétaire du commentaire
-      if(droit($resultat['id_comment'],'commentaire')==true){
-        echo "<br/>Je suis modifiable parce que j'ai les droits";
-        ?>
-        <form action="pagelien.php" method="GET">
-          <input type='hidden' name='id_link' value='<?=$resultat['id_link']?>'>
-          <input type='hidden' name='id_comment' value='<?=$resultat['id_comment']?>'>
-          <input type="submit" name="kill_comment" value="Supprimer commentaire">
-        </form>
-        <a class="nav-link active" href="modifier.php?id_link=<?=$resultat['id_link']?>&modification='commentaire'&id_comment=<?=$resultat['id_comment']?>">Modifier commentaire</a>
-        <?php
-      }
-      ?>
-    </div>
-    <?php
-  }
-  mysqli_free_result($action);
   mysqli_close($connexion);
+  return $user['pseudo'];
 }
 
-function afficher_commentaires($id_link){
+
+
+function commentaires($id_link){
   $connexion = connexion();
   $requete = "SELECT * FROM comments WHERE id_link='".$id_link."' ORDER BY date DESC";
-  $action = mysqli_query($connexion,$requete);
-  $resultat=mysqli_fetch_assoc($action);
-  if($resultat){
-    while($resultat){
-      afficher_un_commentaire($resultat['id_comment']);
-      $resultat=mysqli_fetch_assoc($action);
-    }
-  }
-  mysqli_free_result($action);
+  $commentaires = mysqli_query($connexion,$requete);
   mysqli_close($connexion);
+  return $commentaires;
 }
 
+
+
 function ajouter_commentaire($id_link,$commentaire){
-  $connexion=connexion();
+  $connexion = connexion();
   $insertion = "INSERT INTO comments(date,id_user,id_link,content_comment)
   VALUES  ('".date("Y-m-d H:i:s")."','".$_SESSION['id_user']."','".$id_link."','".$commentaire."')";
-  $action=mysqli_query($connexion,$insertion);
+  $action = mysqli_query($connexion,$insertion);
   mysqli_close($connexion);
   header("Location:pagelien.php?id_link=".$id_link."");
   exit;
@@ -306,8 +256,24 @@ function zone_de_vote($id_link,$type_vote,$id_object){
       }
       ?>
     </form>
+
+    <div style="border:solid; margin:10px; padding:15px;">
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Positif')?> votes positifs</P>
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</P>
+    </div>
   </div>
   <?php
-
 }
+
+
+function compteur_vote($type_vote,$id_object,$value_vote){
+  $connexion = connexion();
+  $requete = "SELECT COUNT(*) FROM vote WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
+  $action = mysqli_query($connexion,$requete);
+  $resultat = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $resultat['COUNT(*)'];
+}
+
+
 ?>

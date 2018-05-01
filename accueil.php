@@ -5,8 +5,6 @@ testacces();
 include("entete.php");
 
 if (isset($_GET['link'],$_GET['commentaire'])){
-  echo $_GET['link'];
-  echo $_GET['commentaire'];
   ajouter_article($_GET['link'],$_GET['commentaire']);
 }
 ?>
@@ -29,11 +27,24 @@ if (isset($_GET['link'],$_GET['commentaire'])){
 
     <!-- Partie pour visualisé tous les articles -->
     <section style="border :solid; margin:10px; padding:15px;">
-    <h3>Liste des liens</h3>
-    <?php
-    $liste_lien ="SELECT * FROM links ORDER BY date DESC";
-    afficher_articles($liste_lien);
-    ?>
+      <h3>Liste des liens</h3>
+      <?php
+      $liste_lien ="SELECT * FROM links ORDER BY date DESC";
+      $action = afficher_articles($liste_lien);
+      foreach ($action as $resultat){
+        ?>
+        <div class="row" style="border-top : solid;">
+          <article>
+            <a class="nav-link active" href="<?=$resultat['link']?>"><?="Lien = ".$resultat['link']?></a><br/>
+            <span><?= "Date = ".$resultat['date']?></span><br/>
+            <span><?="Utilisateur = ".$resultat['id_user']?></span><br/>
+            <span><?= "Commentaire de l'utilisateur = ".$resultat['comment_user']?></span><br/>
+            <a href="pagelien.php?id_link=<?=$resultat['id_link']?>">Ouvrir page du lien</a>
+          </arcticle>
+        </div>
+        <?php
+      }
+      ?>
     </section>
 
   </div>

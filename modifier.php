@@ -5,12 +5,26 @@ testacces();
 include("entete.php");
 
 // Regarde si une modification a été faite
-if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
-  modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
-}
 
-if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
-  modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
+
+
+if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
+  if(droit($_GET['id_link'],'link')==true){
+    modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
+  }
+  else{
+    header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+    exit;
+  }
+}
+if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'])){
+  if(droit($_GET['id_comment'],'comment')==true){
+    modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
+  }
+  else{
+    header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+    exit;
+  }
 }
 ?>
 
@@ -22,6 +36,8 @@ if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
 
     if($_GET['modification']=='lien'){
       ?>
+
+      <!-- Dans le cas où la modification porte sur le lien -->
 
       <section style="border:solid; margin:10px; padding:15px;">
         <?php
@@ -46,6 +62,9 @@ if (isset($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link'])){
     }
     else{
       ?>
+
+      <!-- Dans le cas où la modification porte sur un commentaire -->
+
 
       <section>
         <?php
