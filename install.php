@@ -1,51 +1,85 @@
 <?php
 include("config.php");
 
-$qDb = "CREATE DATABASE IF NOT EXISTS `projet_web`;";
+$qDb = "CREATE DATABASE IF NOT EXISTS `projet`;";
 
-$qSelDb = "USE `projet_web`;";
+$qSelDb = "USE `projet`;";
 
 $qTbUsers = "CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(255) NOT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_user`)
-  ) ENGINE=InnoDB;";
+) ENGINE=InnoDB;";
+
+$qInitTbtUsers = "INSERT INTO `users` (`pseudo`, `mot_de_passe`, `email`) VALUES
+('max', 'max', 'max@free.fr'),
+('bob', 'bob', 'bob@free.fr');";
 
 $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
-    `id_link` int(11) NOT NULL AUTO_INCREMENT,
-    `link` longtext NOT NULL,
-    `nb_up` int(11) NOT NULL,
-    `nb_down` int(11) NOT NULL,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `id_user` int(11) NOT NULL,
-    PRIMARY KEY (`id_link`),
-    FOREIGN KEY (`id_user`) REFERENCES `users`(`id_user`)
-    ) ENGINE=InnoDB;";
+  `id_link` int(11) NOT NULL AUTO_INCREMENT,
+  `link` longtext NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user` int(11) NOT NULL,
+  `comment_user` text NOT NULL,
+  PRIMARY KEY (`id_link`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB;";
+
+
+$qInitTbtLinks = "INSERT INTO `links` (`link`, `id_user`, `comment_user`) VALUES
+('https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google');";
 
 $qTbComments = "CREATE TABLE IF NOT EXISTS `comments` (
-      `id_comment` int(11) NOT NULL AUTO_INCREMENT,
-      `link` longtext NOT NULL,
-      `nb_up` int(11) NOT NULL,
-      `nb_down` int(11) NOT NULL,
-      `date` timestamp NOT NULL,
-      `id_user` int(11) NOT NULL,
-      `id_link` int(11) NOT NULL,
-      PRIMARY KEY (`id_comment`),
-      FOREIGN KEY (`id_user`) REFERENCES `users`(`id_user`),
-      FOREIGN KEY (`id_link`) REFERENCES `links`(`id_link`)
-      ) ENGINE=InnoDB;";
+  `id_comment` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user` int(11) NOT NULL,
+  `id_link` int(11) NOT NULL,
+  `content_comment` text NOT NULL,
+  PRIMARY KEY (`id_comment`),
+  KEY `id_user` (`id_user`),
+  KEY `id_link` (`id_link`)
+) ENGINE=InnoDB;";
+
+$qInitTbtComments = "INSERT INTO `comments` (`id_user`, `id_link`, `content_comment`) VALUES
+(2, 1, 'Excellent site pour faire des recherches!');";
 
 
+$qTbVotes = "CREATE TABLE IF NOT EXISTS `vote` (
+  `id_vote` int(11) NOT NULL AUTO_INCREMENT,
+  `id_link` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `type_vote` varchar(255) NOT NULL,
+  `id_object` int(11) NOT NULL,
+  `value_vote` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_vote`),
+  KEY `id_user` (`id_user`),
+  KEY `id_link` (`id_link`)
+) ENGINE=InnoDB;";
 
 
-echo "Connexion au serveur MySQL.";
-$a=mysqli_connect($GLOBALS['dbServ'], $GLOBALS['dbUser'], $GLOBALS['dbPass'], $GLOBALS['dbName']);
-mysqli_query($a, $qTbUsers);
-mysqli_query($a, $qTbLinks);
-mysqli_query($a, $qTbComments);
+$qInitTbtVotes = "INSERT INTO `vote` (`id_link`, `id_user`, `type_vote`, `id_object`, `value_vote`) VALUES
+(1, 1, 'comments', '1', 'Positif');";
 
 
-mysqli_close($a);
+echo "Connexion au serveur MySQL.</br>";
+$connexion = mysqli_connect($GLOBALS['dbServ'], $GLOBALS['dbUser'], $GLOBALS['dbPass'], $GLOBALS['dbName']);
+echo "Création de la table users.</br>";
+mysqli_query($connexion, $qTbUsers);
+mysqli_query($connexion, $qInitTbtUsers);
+echo "Création de la table links.</br>";
+mysqli_query($connexion, $qTbLinks);
+mysqli_query($connexion, $qInitTbtLinks);
+echo "Création de la table comments.</br>";
+mysqli_query($connexion, $qTbComments);
+mysqli_query($connexion, $qInitTbtComments);
+echo "Création de la table vote.";
+mysqli_query($connexion, $qTbVotes);
+mysqli_query($connexion, $qInitTbtVotes);
+
+
+mysqli_close($connexion);
 ?>

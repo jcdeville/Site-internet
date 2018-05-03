@@ -11,7 +11,7 @@ include("entete.php");
     <h1>Page de profil</h1>
 
     <?php menu();?>
-    
+
     <!-- Informations profil -->
 
     <section style="border:solid; margin:10px; padding:15px;">
@@ -23,6 +23,7 @@ include("entete.php");
 
 
     <!-- Partie pour visualisé tous les articles commentés -->
+
     <section style="border :solid; margin:10px; padding:15px;">
       <h2>Liste des liens commentés</h2>
       <?php
@@ -47,6 +48,7 @@ include("entete.php");
 
 
     <!-- Partie pour visualisé tous les articles postés -->
+
     <section style="border :solid; margin:10px; padding:15px;">
       <h2>Liste des liens postés</h2>
       <?php
@@ -70,6 +72,7 @@ include("entete.php");
     </section>
 
     <!-- Partie pour visualisé tous les articles votés -->
+
     <section style="border :solid; margin:10px; padding:15px;">
       <h2>Liste des liens votés</h2>
       <?php

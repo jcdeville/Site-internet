@@ -31,7 +31,7 @@ if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
         <p><input type="submit" value="OK"></p>
       </form>
 
-      <a href="connexion.php">Connexion</a>
+      <a href="connexion.php">Se connecter</a>
 
 
     </section>

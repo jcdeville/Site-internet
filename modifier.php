@@ -4,10 +4,6 @@ require("fonction.php");
 testacces();
 include("entete.php");
 
-// Regarde si une modification a été faite
-
-
-
 if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
   if(droit($_GET['id_link'],'link')==true){
     modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);

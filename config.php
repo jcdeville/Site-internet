@@ -7,7 +7,6 @@ $GLOBALS['dbPass'] = '';
 $GLOBALS['dbName'] = 'projet_web';
 
 // Blog configuration
-$GLOBALS['blogTitle'] = 'nom du site';
-$GLOBALS['blogPass'] = 'secret';
+$GLOBALS['blogTitle'] = 'Nom du site';
 
 ?>

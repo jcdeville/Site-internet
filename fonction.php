@@ -1,12 +1,15 @@
 <?php
 
+include('config.php');
+
 function connexion(){
-  $connexion = mysqli_connect("localhost","root","","projet_web");
+  $connexion = mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],"",$GLOBALS['dbName']);
   return $connexion;
 }
 
 function deconnexion(){
   if(isset($_GET['deconnexion'])){
+    update_date_last_user_connexion();
     session_destroy();
     session_start();
   }
@@ -36,6 +39,16 @@ function droit($id_object,$type_object){
     return true;
   }
   return false;
+}
+
+function update_date_last_user_connexion(){
+  if(isset($_SESSION['id_user'],$_SESSION['pseudo'])){
+    $connexion = connexion();
+    $requete = "UPDATE users SET date = '".date("Y-m-d H:i:s")."' WHERE id_user = '".$_SESSION['id_user']."'";
+    $action = mysqli_prepare($connexion,$requete);
+    mysqli_stmt_execute($action);
+    mysqli_close($connexion);
+  }
 }
 
 function menu(){
@@ -75,7 +88,7 @@ function inscription($pseudo,$mot_de_passe,$email){
 
 function article($id_link){
   $connexion = connexion();
-  $requete = "SELECT * FROM links WHERE id_link='".$id_link."'";
+  $requete = "SELECT * FROM links WHERE id_link='".$id_link."' ORDER BY date DESC";
   $action = mysqli_query($connexion,$requete);
   $article = mysqli_fetch_assoc($action);
   mysqli_close($connexion);
@@ -95,8 +108,9 @@ function ajouter_article($link,$commentaire){
   $requete = "SELECT * FROM links WHERE link='".$link."'";
   $action = mysqli_query($connexion,$requete);
   $resultat = mysqli_fetch_assoc($action);
+  $commentaire = addslashes($commentaire);
   if(!$resultat){
-    $insertion = "INSERT INTO links(link,date,id_user,comment_user) VALUES  ('".$link."','".date("Y-m-d H:i:s")."','".$_SESSION['id_user']."','".$commentaire."')";
+    $insertion = "INSERT INTO links(link,id_user,comment_user) VALUES  ('".$link."','".$_SESSION['id_user']."','".$commentaire."')";
     $action = mysqli_prepare($connexion,$insertion);
     mysqli_stmt_execute($action);
   }
@@ -165,8 +179,9 @@ function commentaires($id_link){
 
 function ajouter_commentaire($id_link,$commentaire){
   $connexion = connexion();
-  $insertion = "INSERT INTO comments(date,id_user,id_link,content_comment)
-  VALUES  ('".date("Y-m-d H:i:s")."','".$_SESSION['id_user']."','".$id_link."','".$commentaire."')";
+  $commentaire = addslashes($commentaire);
+  $insertion = "INSERT INTO comments(id_user,id_link,content_comment)
+  VALUES  ('".$_SESSION['id_user']."','".$id_link."','".$commentaire."')";
   $action = mysqli_query($connexion,$insertion);
   mysqli_close($connexion);
   header("Location:pagelien.php?id_link=".$id_link."");
@@ -215,8 +230,8 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
   $resultat = trouver_vote_de_user($type_vote,$id_object);
   if(!$resultat){
     $connexion = connexion();
-    $insertion = "INSERT INTO vote(id_link,id_user,type_vote,id_object,value_vote,date)
-    VALUES  ('".$id_link."','".$_SESSION['id_user']."','".$type_vote."','".$id_object."','".$value_vote."','".date("Y-m-d H:i:s")."')";
+    $insertion = "INSERT INTO vote(id_link,id_user,type_vote,id_object,value_vote)
+    VALUES  ('".$id_link."','".$_SESSION['id_user']."','".$type_vote."','".$id_object."','".$value_vote."')";
     $action = mysqli_query($connexion,$insertion);
     mysqli_close($connexion);
   }
@@ -237,10 +252,10 @@ function zone_de_vote($id_link,$type_vote,$id_object){
     <p>Zone de vote</p>
 
     <form action="pagelien.php" method="GET">
-      <input type='hidden' name='id_link' value='<?=$id_link?>'>
       <?php
       if($type_vote=='comments'){
         ?>
+        <input type='hidden' name='id_link' value='<?=$id_link?>'>
         <input type='hidden' name='id_comment' value='<?=$id_object?>'>
         <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('comments',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
         <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('comments',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
@@ -249,6 +264,7 @@ function zone_de_vote($id_link,$type_vote,$id_object){
       }
       if($type_vote=='links'){
         ?>
+        <input type='hidden' name='id_link' value='<?=$id_link?>'>
         <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('links',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
         <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('links',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
         <input type="submit" name="vote_lien" value="Voter">
