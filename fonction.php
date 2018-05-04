@@ -3,7 +3,7 @@
 include('config.php');
 
 function connexion(){
-  $connexion = mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],"",$GLOBALS['dbName']);
+  $connexion = mysqli_connect('localhost','jcdeville',"82ze81pu",'jcdeville');
   return $connexion;
 }
 
@@ -96,11 +96,17 @@ function article($id_link){
 }
 
 
+
+
+
+
 function afficher_articles($requete){
   $connexion = connexion();
-  $articles = mysqli_query($connexion,$requete);
+  $action = mysqli_query($connexion,$requete);
+  $assoc = mysqli_fetch_all($action, MYSQLI_ASSOC);
+  mysqli_free_result($action);
   mysqli_close($connexion);
-  return $articles;
+  return $assoc;
 }
 
 function ajouter_article($link,$commentaire){
@@ -170,9 +176,11 @@ function pseudo_de_user($id_user){
 function commentaires($id_link){
   $connexion = connexion();
   $requete = "SELECT * FROM comments WHERE id_link='".$id_link."' ORDER BY date DESC";
-  $commentaires = mysqli_query($connexion,$requete);
+  $action = mysqli_query($connexion,$requete);
+  $assoc = mysqli_fetch_all($action, MYSQLI_ASSOC);
+  mysqli_free_result($action);
   mysqli_close($connexion);
-  return $commentaires;
+  return $assoc;
 }
 
 

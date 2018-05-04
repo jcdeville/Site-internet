@@ -5,7 +5,6 @@ testacces();
 include("entete.php");
 
 if (isset($_GET['link'],$_GET['commentaire'])){
-  echo "coucou";
   // Problème : des fois il y a des problèmes pour ajouter un lien ou un commentaire. Il faut regarder si les conditions sont bien choisies/remplies.
   ajouter_article($_GET['link'],$_GET['commentaire']);
 }
