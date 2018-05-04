@@ -3,7 +3,7 @@
 include('config.php');
 
 function connexion(){
-  $connexion = mysqli_connect('localhost','jcdeville',"82ze81pu",'jcdeville');
+  $connexion = mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass'],$GLOBALS['dbName']);
   return $connexion;
 }
 
