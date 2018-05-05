@@ -28,7 +28,7 @@ include("entete.php");
       <h2>Liste des liens commentés</h2>
       <?php
       $liste_lien_commenté = "SELECT DISTINCT id_link FROM comments WHERE id_user='".$_SESSION['id_user']."' ORDER BY date DESC";
-      $id_links = afficher_articles($liste_lien_commenté);
+      $id_links = selectionner_id_link($liste_lien_commenté);
       foreach ($id_links as $id_link){
         $article = article($id_link['id_link']);
         ?>
@@ -52,8 +52,8 @@ include("entete.php");
     <section style="border :solid; margin:10px; padding:15px;">
       <h2>Liste des liens postés</h2>
       <?php
-      $liste_lien_posté = "SELECT * FROM links WHERE id_user='".$_SESSION['id_user']."'  ORDER BY date DESC";
-      $id_links = afficher_articles($liste_lien_posté);
+      $liste_lien_posté = "SELECT DISTINCT id_link FROM links WHERE id_user='".$_SESSION['id_user']."'  ORDER BY date DESC";
+      $id_links = selectionner_id_link($liste_lien_posté);
       foreach ($id_links as $id_link){
         $article = article($id_link['id_link']);
         ?>
@@ -76,8 +76,8 @@ include("entete.php");
     <section style="border :solid; margin:10px; padding:15px;">
       <h2>Liste des liens votés</h2>
       <?php
-      $liste_lien_voté = "SELECT DISTINCT * FROM vote WHERE id_user='".$_SESSION['id_user']."' GROUP BY id_link ORDER BY date DESC";
-      $id_links = afficher_articles($liste_lien_voté);
+      $liste_lien_voté = "SELECT DISTINCT id_link FROM votes WHERE id_user='".$_SESSION['id_user']."' GROUP BY id_link ORDER BY date DESC";
+      $id_links = selectionner_id_link($liste_lien_voté);
       foreach ($id_links as $id_link){
         $article = article($id_link['id_link']);
         ?>

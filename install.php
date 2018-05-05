@@ -5,6 +5,8 @@ $qDb = "CREATE DATABASE IF NOT EXISTS `projet`;";
 
 $qSelDb = "USE `projet`;";
 
+$deletTbtUsers = "DROP TABLE IF EXISTS `users`;";
+
 $qTbUsers = "CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(255) NOT NULL,
@@ -18,19 +20,25 @@ $qInitTbtUsers = "INSERT INTO `users` (`pseudo`, `mot_de_passe`, `email`) VALUES
 ('max', 'max', 'max@free.fr'),
 ('bob', 'bob', 'bob@free.fr');";
 
+
+$deletTbtLinks = "DROP TABLE IF EXISTS `links`;";
+
 $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
   `id_link` int(11) NOT NULL AUTO_INCREMENT,
   `link` longtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
   `comment_user` text NOT NULL,
+  `interaction_number` int(11) NOT NULL,
   PRIMARY KEY (`id_link`),
   KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB;";
 
+$qInitTbtLinks = "INSERT INTO `links` (`link`, `id_user`, `comment_user`,`interaction_number`) VALUES
+('https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google',0);";
 
-$qInitTbtLinks = "INSERT INTO `links` (`link`, `id_user`, `comment_user`) VALUES
-('https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google');";
+
+$deletTbtComments = "DROP TABLE IF EXISTS `comments`;";
 
 $qTbComments = "CREATE TABLE IF NOT EXISTS `comments` (
   `id_comment` int(11) NOT NULL AUTO_INCREMENT,
@@ -47,7 +55,9 @@ $qInitTbtComments = "INSERT INTO `comments` (`id_user`, `id_link`, `content_comm
 (2, 1, 'Excellent site pour faire des recherches!');";
 
 
-$qTbVotes = "CREATE TABLE IF NOT EXISTS `vote` (
+$deletTbtVotes = "DROP TABLE IF EXISTS `votes`;";
+
+$qTbVotes = "CREATE TABLE IF NOT EXISTS `votes` (
   `id_vote` int(11) NOT NULL AUTO_INCREMENT,
   `id_link` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
@@ -60,23 +70,26 @@ $qTbVotes = "CREATE TABLE IF NOT EXISTS `vote` (
   KEY `id_link` (`id_link`)
 ) ENGINE=InnoDB;";
 
-
-$qInitTbtVotes = "INSERT INTO `vote` (`id_link`, `id_user`, `type_vote`, `id_object`, `value_vote`) VALUES
+$qInitTbtVotes = "INSERT INTO `votes` (`id_link`, `id_user`, `type_vote`, `id_object`, `value_vote`) VALUES
 (1, 1, 'comments', '1', 'Positif');";
 
 
 echo "Connexion au serveur MySQL.</br>";
 $connexion = mysqli_connect($GLOBALS['dbServ'], $GLOBALS['dbUser'], $GLOBALS['dbPass'], $GLOBALS['dbName']);
 echo "Création de la table users.</br>";
+mysqli_query($connexion, $deletTbtUsers);
 mysqli_query($connexion, $qTbUsers);
 mysqli_query($connexion, $qInitTbtUsers);
 echo "Création de la table links.</br>";
+mysqli_query($connexion, $deletTbtLinks);
 mysqli_query($connexion, $qTbLinks);
 mysqli_query($connexion, $qInitTbtLinks);
 echo "Création de la table comments.</br>";
+mysqli_query($connexion, $deletTbtComments);
 mysqli_query($connexion, $qTbComments);
 mysqli_query($connexion, $qInitTbtComments);
-echo "Création de la table vote.";
+echo "Création de la table votes .";
+mysqli_query($connexion, $deletTbtVotes);
 mysqli_query($connexion, $qTbVotes);
 mysqli_query($connexion, $qInitTbtVotes);
 

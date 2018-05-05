@@ -2,11 +2,13 @@
 
 include('config.php');
 
+// Permet de se connecter à la base de donnée
 function connexion(){
   $connexion = mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass'],$GLOBALS['dbName']);
   return $connexion;
 }
 
+// Permet de se déconnecter
 function deconnexion(){
   if(isset($_GET['deconnexion'])){
     update_date_last_user_connexion();
@@ -15,6 +17,7 @@ function deconnexion(){
   }
 }
 
+// Renvoie à la page de de connexion si l'utilisateur ne s'est pas identifié
 function testacces(){
   if(!isset($_SESSION['id_user'],$_SESSION['pseudo'])){
     header("Location:connexion.php");
@@ -22,6 +25,7 @@ function testacces(){
   }
 }
 
+// Vérifie que l'utilisateur est propriétaire du lien ou du commentaire
 function droit($id_object,$type_object){
   $connexion = connexion();
   if($type_object=='link'){
@@ -41,6 +45,7 @@ function droit($id_object,$type_object){
   return false;
 }
 
+// Met à jour la date de connexion de l'utilisateur
 function update_date_last_user_connexion(){
   if(isset($_SESSION['id_user'],$_SESSION['pseudo'])){
     $connexion = connexion();
@@ -51,6 +56,7 @@ function update_date_last_user_connexion(){
   }
 }
 
+// Renvoie le menu
 function menu(){
   ?>
   <nav style="border-bottom: solid;">
@@ -61,6 +67,7 @@ function menu(){
   <?php
 }
 
+// Crée un compte et connecte l'utilisateur
 function inscription($pseudo,$mot_de_passe,$email){
   $connexion=connexion();
   $insertion = "INSERT INTO users(pseudo,mot_de_passe,email) VALUES  ('".$pseudo."','".$mot_de_passe."','".$email."')";
@@ -85,22 +92,18 @@ function inscription($pseudo,$mot_de_passe,$email){
   <?php
 }
 
-
+// Retourne les informations d'un lien posté (un article est composé d'un lien et de son commentaire écrit pas celui qui l'a posté)
 function article($id_link){
   $connexion = connexion();
-  $requete = "SELECT * FROM links WHERE id_link='".$id_link."' ORDER BY date DESC";
+  $requete = "SELECT * FROM links WHERE id_link='".$id_link."'";
   $action = mysqli_query($connexion,$requete);
   $article = mysqli_fetch_assoc($action);
   mysqli_close($connexion);
   return $article;
 }
 
-
-
-
-
-
-function afficher_articles($requete){
+// Retourne un ensemble de id de lien suite à requête
+function selectionner_id_link($requete){
   $connexion = connexion();
   $action = mysqli_query($connexion,$requete);
   $assoc = mysqli_fetch_all($action, MYSQLI_ASSOC);
@@ -109,6 +112,7 @@ function afficher_articles($requete){
   return $assoc;
 }
 
+// Ajouter un lien
 function ajouter_article($link,$commentaire){
   $connexion = connexion();
   $requete = "SELECT * FROM links WHERE link='".$link."'";
@@ -116,7 +120,7 @@ function ajouter_article($link,$commentaire){
   $resultat = mysqli_fetch_assoc($action);
   $commentaire = addslashes($commentaire);
   if(!$resultat){
-    $insertion = "INSERT INTO links(link,id_user,comment_user) VALUES  ('".$link."','".$_SESSION['id_user']."','".$commentaire."')";
+    $insertion = "INSERT INTO links(link,id_user,comment_user,interaction_number) VALUES  ('".$link."','".$_SESSION['id_user']."','".$commentaire."',0)";
     $action = mysqli_prepare($connexion,$insertion);
     mysqli_stmt_execute($action);
   }
@@ -126,6 +130,7 @@ function ajouter_article($link,$commentaire){
   exit;
 }
 
+// Modifier un lien et son commentaire
 function modifier_article($id_link,$link,$comment_user){
   $connexion = connexion();
   $requete = "UPDATE links SET link = '".$link."', comment_user = '".$comment_user."' WHERE id_link = '".$id_link."'";
@@ -136,12 +141,13 @@ function modifier_article($id_link,$link,$comment_user){
   exit;
 }
 
+// Supprimer un article, son commentaire, les commentaires et les votes associés
 function supprimer_article($id_link){
   $connexion = connexion();
   $supprimer = "DELETE FROM comments WHERE id_link='".$id_link."'";
   $action = mysqli_prepare($connexion,$supprimer);
   mysqli_stmt_execute($action);
-  $supprimer = "DELETE FROM vote WHERE id_link='".$id_link."'";
+  $supprimer = "DELETE FROM votes  WHERE id_link='".$id_link."'";
   $action = mysqli_prepare($connexion,$supprimer);
   mysqli_stmt_execute($action);
   $supprimer = "DELETE FROM links WHERE id_link='".$id_link."'";
@@ -152,16 +158,7 @@ function supprimer_article($id_link){
   exit;
 }
 
-
-function commentaire($id_comment){
-  $connexion = connexion();
-  $requete = "SELECT * FROM comments WHERE id_comment='".$id_comment."'";
-  $action = mysqli_query($connexion,$requete);
-  $commentaire = mysqli_fetch_assoc($action);
-  mysqli_close($connexion);
-  return $commentaire;
-}
-
+// Retourne le pseudo d'un utilisateur selon son id d'utilisateur
 function pseudo_de_user($id_user){
   $connexion = connexion();
   $requete = "SELECT * FROM users WHERE id_user='".$id_user."'";
@@ -171,8 +168,17 @@ function pseudo_de_user($id_user){
   return $user['pseudo'];
 }
 
+// Retourne les informations d'un commentaire posté sur un lien
+function commentaire($id_comment){
+  $connexion = connexion();
+  $requete = "SELECT * FROM comments WHERE id_comment='".$id_comment."'";
+  $action = mysqli_query($connexion,$requete);
+  $commentaire = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $commentaire;
+}
 
-
+// Retourne l'ensemble les commentaires associés à un lien
 function commentaires($id_link){
   $connexion = connexion();
   $requete = "SELECT * FROM comments WHERE id_link='".$id_link."' ORDER BY date DESC";
@@ -184,7 +190,7 @@ function commentaires($id_link){
 }
 
 
-
+// Ajoute un commentaire
 function ajouter_commentaire($id_link,$commentaire){
   $connexion = connexion();
   $commentaire = addslashes($commentaire);
@@ -196,6 +202,7 @@ function ajouter_commentaire($id_link,$commentaire){
   exit;
 }
 
+// Modifie un commentaire
 function modifier_commentaire($id_comment,$content_comment,$id_link){
   $connexion = connexion();
   $requete = "UPDATE comments SET content_comment = '".$_GET['content_comment']."' WHERE id_comment = '".$_GET['id_comment']."'";
@@ -206,8 +213,12 @@ function modifier_commentaire($id_comment,$content_comment,$id_link){
   exit;
 }
 
+// Supprime un commentaire et ses votes associés
 function supprimer_commentaire($id_comment,$id_link){
   $connexion = connexion();
+  $requete = "DELETE FROM votes  WHERE id_object = '".$id_comment."' AND type_vote = 'comments'";
+  $action = mysqli_prepare($connexion,$requete);
+  mysqli_stmt_execute($action);
   $requete = "DELETE FROM comments WHERE id_comment='".$id_comment."'";
   $action = mysqli_prepare($connexion,$requete);
   mysqli_stmt_execute($action);
@@ -216,16 +227,16 @@ function supprimer_commentaire($id_comment,$id_link){
   exit;
 }
 
-// J'ai rajouté et je suis en train de rendre au plus propre tout ce qui est sur le vote
-
+// Retourne les informations d'un vote de l'utilisateur pour un commentaire en particulier
 function trouver_vote_de_user($type_vote,$id_object){
   $connexion = connexion();
-  $requete = "SELECT * FROM vote WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
+  $requete = "SELECT * FROM votes  WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
   $action = mysqli_query($connexion,$requete);
-  $resultat=mysqli_fetch_assoc($action);
+  $resultat = mysqli_fetch_assoc($action);
   return $resultat;
 }
 
+// Retourne la valeur d'un vote de l'utilisteur pour un commentaire en particulier
 function valeur_vote_de_user($type_vote,$id_object){
   $resultat = trouver_vote_de_user($type_vote,$id_object);
   if($resultat){
@@ -234,18 +245,20 @@ function valeur_vote_de_user($type_vote,$id_object){
   return NULL;
 }
 
+// Ajoute un vote à un commentaire ou le modifie si il existe déjà
 function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
   $resultat = trouver_vote_de_user($type_vote,$id_object);
   if(!$resultat){
     $connexion = connexion();
-    $insertion = "INSERT INTO vote(id_link,id_user,type_vote,id_object,value_vote)
+    $insertion = "INSERT INTO votes (id_link,id_user,type_vote,id_object,value_vote)
     VALUES  ('".$id_link."','".$_SESSION['id_user']."','".$type_vote."','".$id_object."','".$value_vote."')";
-    $action = mysqli_query($connexion,$insertion);
+    $action = mysqli_prepare($connexion,$insertion);
+    mysqli_stmt_execute($action);
     mysqli_close($connexion);
   }
   elseif($resultat['$value_vote']!=$value_vote){
     $connexion = connexion();
-    $requete = "UPDATE vote SET value_vote = '".$value_vote."' WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
+    $requete = "UPDATE votes  SET value_vote = '".$value_vote."' WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
     $action = mysqli_prepare($connexion,$requete);
     mysqli_stmt_execute($action);
     mysqli_close($connexion);
@@ -254,6 +267,8 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
   exit;
 }
 
+
+// Affiche une zone de vote pour le commentaire et affiche le vote de l'utilisteur si il a déjà voté
 function zone_de_vote($id_link,$type_vote,$id_object){
   ?>
   <div style="border:solid; margin:10px; padding:15px;">
@@ -282,22 +297,59 @@ function zone_de_vote($id_link,$type_vote,$id_object){
     </form>
 
     <div style="border:solid; margin:10px; padding:15px;">
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Positif')?> votes positifs</P>
-        <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</P>
-        </div>
-      </div>
-      <?php
-    }
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Positif')?> votes positifs</p>
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</p>
+    </div>
+
+  </div>
+  <?php
+}
+
+// Renvoie le nombre de votes positifs ou négatifs associés à un commentaire
+function compteur_vote($type_vote,$id_object,$value_vote){
+  $connexion = connexion();
+  $requete = "SELECT COUNT(*) FROM votes  WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
+  $action = mysqli_query($connexion,$requete);
+  $resultat = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $resultat['COUNT(*)'];
+}
+
+// Renvoie le nombre d'intéraction qu'il a eu avec un lien (commentaires et votes) depuis le début de lajournée
+function compteur_interaction($id_link){
+  $nombre_interaction = 0;
+  $connexion = connexion();
+  $requete = "SELECT COUNT(*) FROM comments WHERE id_link='".$id_link."' AND date >= CURDATE()";
+  $action = mysqli_query($connexion,$requete);
+  $resultat = mysqli_fetch_assoc($action);
+  mysqli_free_result($action);
+
+  $nombre_interaction = $nombre_interaction + $resultat['COUNT(*)'];
+
+  $requete = "SELECT COUNT(*) FROM votes  WHERE id_link='".$id_link."' AND date >= CURDATE()";
+  $action = mysqli_query($connexion,$requete);
+  $resultat = mysqli_fetch_assoc($action);
+
+  $nombre_interaction = $nombre_interaction + $resultat['COUNT(*)'];
+
+  mysqli_free_result($action);
+  mysqli_close($connexion);
+  return $nombre_interaction;
+}
+
+// Met à jour le nombre d'intéraction de tous les articles depuis le début de lajournée
+function interaction_number_update(){
+  $connexion = connexion();
+  $liste_lien = "SELECT * FROM links";
+  $articles = selectionner_id_link($liste_lien);
+  foreach ($articles as $article){
+    $nombre_interaction = compteur_interaction($article['id_link']);
+    $requete = "UPDATE links SET interaction_number = '".$nombre_interaction."' WHERE id_link = '".$article['id_link']."'";
+    $action = mysqli_prepare($connexion,$requete);
+    mysqli_stmt_execute($action);
+  }
+  mysqli_close($connexion);
+}
 
 
-    function compteur_vote($type_vote,$id_object,$value_vote){
-      $connexion = connexion();
-      $requete = "SELECT COUNT(*) FROM vote WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
-      $action = mysqli_query($connexion,$requete);
-      $resultat = mysqli_fetch_assoc($action);
-      mysqli_close($connexion);
-      return $resultat['COUNT(*)'];
-    }
-
-
-    ?>
+?>
