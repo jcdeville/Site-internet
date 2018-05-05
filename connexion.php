@@ -6,24 +6,31 @@ include("entete.php");
 ?>
 
 <body>
-  <div class="container">
-    <h1>Page de connexion</h1>
+  <!-- header -->
+  <header class="container-fluid header">
+    <div class="container">
+      <a href="#" class="logo">nom du site</a>
+      <nav class="menu">
+          <a href="inscription.php">Vous ne possedez pas encore de compte ? S'inscrire</a>
+      </nav>
+    </div>
+  </header>
+  <!-- end header -->
 
-    <?php menu(); ?>
-
-    <section style="border:solid; margin:10px; padding:15px;">
 
       <?php
-
       if (!isset($_POST['pseudo'],$_POST['mot_de_passe'])){
         ?>
-        <form method="POST">
-          <input type="text" name="pseudo" placeholder="Nom" required/>
-          <input type="password" name="mot_de_passe" placeholder="Mot de passe" required/>
-          <input type="submit" name="validate" value="Connexion"/>
-        </form>
-        <a class="nav-link active" href="profil.php">Voir profil</a>
-        <a class="nav-link active" href="inscription.php">S'inscrire</a>
+        <div class="container-fluid " >
+           <div class=" col-md-4 inscription">
+              <h2>Se connecter à ...</h2>
+            <form class="container" method="POST" >
+              <input type="text" name="pseudo" placeholder="pseudo" require>
+               <input type="password" name="mot_de_passe" placeholder="Mot de passe" require>
+                <input type="submit" value="Se connecter" class="btn btn-primary pull-right" require>
+            </form>
+           </div>
+          </div>
         <?php
 
       }
@@ -42,7 +49,8 @@ include("entete.php");
             ?>
 
             <script>
-            var stay=alert("Connexion réussi")
+            var name='<?php echo $_SESSION['pseudo'] ?>';
+            var stay=alert("Connexion réussi, Bonjour "+name)
             if (!stay)
             window.location="profil.php"
             </script>

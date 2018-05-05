@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+/*font-family: 'Roboto', sans-serif;*/
+
+body, html {
+	padding: 0;
+	margin: 0;
+		background-color:  #E7EAEB;
+
+}
+
+a, a:hover{
+	text-decoration: none;
+}
+
+
+/*header*/
+
+.header{
+	background-color: #0DD3D5;
+	height: 50px;
+	line-height: 50px; /*center vertical*/
+}
+
+
+.logo{
+	color: white;
+	text-transform: uppercase; /*maj*/
+	font-weight: bold;
+	letter-spacing: 1px;
+	float: left;
+
+}
+
+.menu{
+	float: right;
+}
+
+.menu a{
+	color: white;
+	margin-right:20px;
+
+}
+
+.menu a:hover{
+	color: grey;
+}
+/*corps*/
+
+.publication a{
+	color: black;
+}
+
+.publication, .partage{
+	padding-top: 10px
+}
+
+.avis{
+	background-color: grey;
+}
+
+.lien{
+	text-align: center;
+}
+
+.publication a{
+	font-size: 13px;
+}
+
+.inscription{
+	text-align: center;
+	margin: auto;
+}
+
+.input_co, .connexion
+{
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	width: 400px;
+}
+
+.titre_lien{
+	padding-top: 10px;
+	padding-left: 10px;
+	float: left;
+
+}
+
+.date, .pseudo{
+	font-size: 13px;
+}
+
+/*page lien*/
+
+.page_lien{
+		margin: auto;
+}
+
+.espace_com{
+		padding-top: 10px;
+
+}
