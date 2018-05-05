@@ -8,22 +8,41 @@ if (isset($_GET['link'],$_GET['commentaire'])){
   ajouter_article($_GET['link'],$_GET['commentaire']);
 }
 ?>
-
 <body>
-  <div class="container">
-    <h1>Page d'accueil</h1>
+  <!-- header -->
+	<header class="container-fluid header">
+		<div class="container">
+			<a href="#" class="logo">nom du site</a>
+			<nav class="menu">
+				 <a href="profil.php">Profil</a>
+				 <a href="connexion.php?deconnexion=ok">Déconnexion</a>
+			</nav>
+		</div>
+	</header>
+	<!-- end header -->
+  <section class=" corps">
+  	<div class="container-fluids">
 
-    <?php menu(); ?>
+  		<div class="row" style="padding-top: 10px">
 
-    <section style="border:solid; margin:10px; padding:15px;">
+  			<!-- partie centrale -->
+
+  			<div class="col-md-6 page_lien">
+  				<div class="card" style="width: auto;">
+  					  <div class="card-title">
+  					  		<h3 style="text-align: center">Quoi de neuf ?</h3>
+  					   </div>
+  				</div>
+
       <!-- Partie pour ajouté un article -->
-      <h3>Ajouter un lien</h3>
-      <form action="accueil.php"  method="GET">
-        <p>Votre link : <input type="url" name="link" required/></p>
-        <p>Votre commentaire : <input type="text" name="commentaire" required/></p>
-        <p><input type="submit" value="Ajouter"></p>
-      </form>
-    </section>
+      <div class="container" style="margin:auto">
+        <form action="accueil.php"  method="GET">
+          <input class="form-control" type="url" name="link" placeholder="Partager un lien">
+           <input class="form-control" type="text" name="commentaire" placeholder="Commenter le lien" required>
+           <input style="width:auto"type="submit" value="Partager" class="btn btn-primary pull-right"required>
+        </form>
+      </div>
+
 
     <!-- Partie pour visualisé les 5 articles ayant eux le plus d'intéractions dans la journée-->
     <section style="border :solid; margin:10px; padding:15px;">

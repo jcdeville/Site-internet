@@ -1,16 +1,6 @@
 <?php
 require("fonction.php");
 include("entete.php");
-
-// Inscrit la personne si les renseignements sont donnés
-if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
-  if(strlen($_POST['pseudo']) >= 4 && strlen($_POST['mot_de_passe']) >= 6){
-    inscription($_POST['pseudo'],$_POST['mot_de_passe'],$_POST['email']);
-  }
-  else{
-    echo "Veuillez respecter les conditions d'inscription";
-  }
-}
 ?>
 <!-- header -->
 <header class="container-fluid header">
@@ -22,11 +12,33 @@ if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
   </div>
 </header>
 <!-- end header -->
+<?php
+// Inscrit la personne si les renseignements sont donnés
+if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
+  if(strlen($_POST['pseudo']) >= 4 && strlen($_POST['mot_de_passe']) >= 6){
+    inscription($_POST['pseudo'],$_POST['mot_de_passe'],$_POST['email']);
+  }
+  else{
+    ?>
+    <div class="container">
+      <div class="col-md-5 pb_inscription">
+        <div class="alert alert-danger " role="alert" style="text-align:center">
+          Veuillez correctement renseigner vos informations
+        </div>
+      </div>
+
+    </div>
+
+    <?php
+  }
+}
+?>
+
 <body>
   <div class="container-fluid " >
      <div class=" col-md-4 inscription">
         <h2>Bienvenue !</h2>
-      <form class="container" action="inscription.php"  method="POST" >
+      <form class="container" action="inscription.php"  method="POST" style="padding-left:0px">
           <!-- <input type="text" name="nom" placeholder="Nom">
           <input type="text" name="prénom" placeholder="Prénom"> -->
           <input class="input_co" type="text" name="pseudo" placeholder="Nom d'utilisateur (4 caractères minimum)"required>

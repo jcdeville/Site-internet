@@ -25,9 +25,9 @@ include("entete.php");
            <div class=" col-md-4 inscription">
               <h2>Se connecter à ...</h2>
             <form class="container" method="POST" >
-              <input type="text" name="pseudo" placeholder="pseudo" require>
-               <input type="password" name="mot_de_passe" placeholder="Mot de passe" require>
-                <input type="submit" value="Se connecter" class="btn btn-primary pull-right" require>
+              <input class="input_co" type="text" name="pseudo" placeholder="pseudo" require>
+               <input  class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe" require>
+                <input type="submit" value="Se connecter" class="btn btn-primary pull-right input_co" require>
             </form>
            </div>
           </div>
@@ -52,7 +52,7 @@ include("entete.php");
             var name='<?php echo $_SESSION['pseudo'] ?>';
             var stay=alert("Connexion réussi, Bonjour "+name)
             if (!stay)
-            window.location="profil.php"
+            window.location="accueil.php"
             </script>
 
             <?php
