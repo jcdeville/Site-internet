@@ -8,15 +8,19 @@ if (isset($_GET['kill_article'])){
   supprimer_article($_GET['id_link']);
 }
 if (isset($_GET['kill_comment'])){
+  last_modification_date_update($_GET['id_link']);
   supprimer_commentaire($_GET['id_comment'],$_GET['id_link']);
 }
 if(isset($_GET['commentaire'])){
+  last_modification_date_update($_GET['id_link']);
   ajouter_commentaire($_GET['id_link'],$_GET['commentaire']);
 }
 if(isset($_GET['vote_lien'])){
+  last_modification_date_update($_GET['id_link']);
   ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
 }
 if(isset($_GET['vote_comment'])){
+  last_modification_date_update($_GET['id_link']);
   ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
 }
 ?>

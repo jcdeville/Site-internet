@@ -26,10 +26,11 @@ $deletTbtLinks = "DROP TABLE IF EXISTS `links`;";
 $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
   `id_link` int(11) NOT NULL AUTO_INCREMENT,
   `link` longtext NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
   `comment_user` text NOT NULL,
   `interaction_number` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_link`),
   KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB;";

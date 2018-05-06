@@ -6,6 +6,7 @@ include("entete.php");
 
 if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
   if(droit($_GET['id_link'],'link')==true){
+    last_modification_date_update($_GET['id_link']);
     modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
   }
   else{
@@ -15,6 +16,7 @@ if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
 }
 if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'])){
   if(droit($_GET['id_comment'],'comment')==true){
+    last_modification_date_update($_GET['id_link']);
     modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
   }
   else{

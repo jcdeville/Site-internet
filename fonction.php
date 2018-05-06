@@ -133,7 +133,7 @@ function ajouter_article($link,$commentaire){
 // Modifier un lien et son commentaire
 function modifier_article($id_link,$link,$comment_user){
   $connexion = connexion();
-  $requete = "UPDATE links SET link = '".$link."', comment_user = '".$comment_user."' WHERE id_link = '".$id_link."'";
+  $requete = "UPDATE links SET link = '".$link."', comment_user = '".$comment_user."', date = NOW(), last_modification_date = NOW() WHERE id_link = '".$id_link."'";
   $action = mysqli_prepare($connexion,$requete);
   mysqli_stmt_execute($action);
   mysqli_close($connexion);
@@ -205,7 +205,7 @@ function ajouter_commentaire($id_link,$commentaire){
 // Modifie un commentaire
 function modifier_commentaire($id_comment,$content_comment,$id_link){
   $connexion = connexion();
-  $requete = "UPDATE comments SET content_comment = '".$_GET['content_comment']."' WHERE id_comment = '".$_GET['id_comment']."'";
+  $requete = "UPDATE comments SET content_comment = '".$_GET['content_comment']."', date = NOW() WHERE id_comment = '".$_GET['id_comment']."'";
   $action = mysqli_prepare($connexion,$requete);
   mysqli_stmt_execute($action);
   mysqli_close($connexion);
@@ -258,7 +258,7 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
   }
   elseif($resultat['$value_vote']!=$value_vote){
     $connexion = connexion();
-    $requete = "UPDATE votes  SET value_vote = '".$value_vote."' WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
+    $requete = "UPDATE votes  SET value_vote = '".$value_vote."', date = NOW() WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
     $action = mysqli_prepare($connexion,$requete);
     mysqli_stmt_execute($action);
     mysqli_close($connexion);
@@ -348,6 +348,15 @@ function interaction_number_update(){
     $action = mysqli_prepare($connexion,$requete);
     mysqli_stmt_execute($action);
   }
+  mysqli_close($connexion);
+}
+
+// Met à jour la date de la dernière intéraction
+function last_modification_date_update($id_link){
+  $connexion = connexion();
+  $requete = "UPDATE links SET last_modification_date = NOW() WHERE id_link = '".$id_link."'";
+  $action = mysqli_prepare($connexion,$requete);
+  mysqli_stmt_execute($action);
   mysqli_close($connexion);
 }
 
