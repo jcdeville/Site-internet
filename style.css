@@ -110,7 +110,9 @@ a, a:hover{
 .date, .pseudo{
 	font-size: 13px;
 }
-
+.link_vote{
+	color:black;
+}
 /*page lien*/
 
 .page_lien{

@@ -27,7 +27,6 @@ if (isset($_GET['link'],$_GET['commentaire'])){
   		<div class="row" style="padding-top: 10px">
   			<div class="col-md-6" style="margin:auto;">
   				<div class="card" style="width: auto; " >
-  					  <div class="card-title">
   					  		<h3 style="text-align: center">Quoi de neuf ?</h3>
   					   </div>
   				</div>
@@ -55,7 +54,7 @@ if (isset($_GET['link'],$_GET['commentaire'])){
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
             <div class="card-title">
-                <h3 style="text-align: center">Liste des 5 liens ayant eux le plus d'intéractions dans la journée</h3>
+                <h3 style="text-align: center">Tendances</h3>
              </div>
              <?php
              interaction_number_update();
@@ -68,26 +67,30 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                  <div class="card" style="width: auto;">
          					<div>
          						<p class="titre_lien pseudo"><?="".$pseudo?></p>
-
          						<p class="titre_lien date"><?= "".$article['date']?></p>
          					</div>
-                  <p class="card-text">
-                    <?= "".$article['comment_user']?>
-                  </p>
-         		  		<p class="card-text lien">
-                    <a class="nav-link active" href="<?=$article['link']?>"><?="Lien = ".$article['link']?></a><br/>
-                  </p>
+                  <div class="card-body" style="padding-top:0px">
+                    <p class="card-text">
+                      <?= "".$article['comment_user']?>
+                    </p>
+
+                    <div class="card" style="margin:auto;text-align:center">
+                      <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a><br/>
+                    </div>
+                  </div>
+
+
          				  <div class="card-footer">
          				  	<img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
-         				    <a href="">Upvote</a>
+         				    <a class="link_vote" href="">Upvote</a>
 
                     <?php
                     echo compteur_vote('links',$article['id_link'],'positif');
                      ?>
          				    <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
-         				    <a href="">Downvote</a>
+         				    <a class="link_vote" href="">Downvote</a>
                     <?php echo compteur_vote('links',$article['id_link'],'négatif') ?>
-                    <a href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
+                    <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
 
          				  </div>
          				</div>
@@ -106,8 +109,7 @@ if (isset($_GET['link'],$_GET['commentaire'])){
 
     <!-- Partie pour visualisé tous les articles postés il y a 24 heures -->
 
-    <section style="border :solid; margin:10px; padding:15px;">
-      <h3>Liste des nouveautés qu’il y a eu depuis la dernière connexion de l'utilisateur pour les liens ou il avait interagi dans les dernière 24h.</h3>
+
       <?php
 
       // Il faut revoir la requête car elle ne sélectionne pas et ne classe pas les liens de la bonne manière
@@ -141,25 +143,61 @@ ORDER BY ...
 
       */
 
+?>
 
-      $liste_lien_24H = "SELECT * FROM links";
-      $action = selectionner_id_link($liste_lien_24H);
-      foreach ($action as $resultat){
-        $article = article($resultat['id_link']);
-        ?>
-        <div class="row" style="border-top : solid;">
-          <article>
-            <a class="nav-link active" href="<?=$article['link']?>"><?="Lien = ".$article['link']?></a><br/>
-            <span><?= "Date = ".$article['date']?></span><br/>
-            <span><?="Utilisateur = ".$article['id_user']?></span><br/>
-            <span><?= "Commentaire de l'utilisateur = ".$article['comment_user']?></span><br/>
-            <a href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
-          </arcticle>
+      <div class="row" style="padding-top: 10px">
+        <div class="col-md-6" style="margin:auto;">
+          <div class="card" style="width: auto; " >
+              <div class="card-title">
+                  <h3 style="text-align: center">Nouveautés</h3>
+               </div>
+               <?php
+               $liste_lien_24H = "SELECT * FROM links";
+               $action = selectionner_id_link($liste_lien_24H);
+               foreach ($action as $resultat){
+                 $article = article($resultat['id_link']);
+                 $pseudo=pseudo_de_user($article['id_user']);
+                 ?>
+                 <div class="container-fluid"style="padding-bottom:10px" >
+                   <div class="card" style="width: auto;">
+           					<div>
+           						<p class="titre_lien pseudo"><?="".$pseudo?></p>
+           						<p class="titre_lien date"><?= "".$article['date']?></p>
+           					</div>
+                    <div class="card-body" style="padding-top:0px">
+                      <p class="card-text">
+                        <?= "".$article['comment_user']?>
+                      </p>
+
+                      <div class="card" style="margin:auto;text-align:center">
+                        <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a><br/>
+                      </div>
+                    </div>
+
+
+           				  <div class="card-footer">
+           				  	<img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
+           				    <a class="link_vote" href="">Upvote</a>
+
+                      <?php
+                      echo compteur_vote('links',$article['id_link'],'positif');
+                       ?>
+           				    <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
+           				    <a class="link_vote" href="">Downvote</a>
+                      <?php echo compteur_vote('links',$article['id_link'],'négatif') ?>
+                      <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
+
+           				  </div>
+           				</div>
+                </div>
+
+                 <?php
+               }
+               ?>
+
+          </div>
         </div>
-        <?php
-      }
-      ?>
-    </section>
+      </div>
 
   </div>
 </body>
