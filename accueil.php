@@ -22,26 +22,32 @@ if (isset($_GET['link'],$_GET['commentaire'])){
 	<!-- end header -->
   <section class=" corps">
   	<div class="container-fluids">
+      <!-- partie centrale -->
 
   		<div class="row" style="padding-top: 10px">
-
-  			<!-- partie centrale -->
-
-  			<div class="col-md-6 page_lien">
-  				<div class="card" style="width: auto;">
+  			<div class="col-md-6" style="margin:auto;">
+  				<div class="card" style="width: auto; " >
   					  <div class="card-title">
   					  		<h3 style="text-align: center">Quoi de neuf ?</h3>
   					   </div>
   				</div>
+        </div>
+      </div>
+
 
       <!-- Partie pour ajouté un article -->
-      <div class="container" style="margin:auto">
-        <form action="accueil.php"  method="GET">
-          <input class="form-control" type="url" name="link" placeholder="Partager un lien">
-           <input class="form-control" type="text" name="commentaire" placeholder="Commenter le lien" required>
-           <input style="width:auto"type="submit" value="Partager" class="btn btn-primary pull-right"required>
-        </form>
+      <div class="row" style="padding-top:10px">
+        <div class="col-md-6" style="margin:auto;">
+          <div class="card" style="padding-top: 10px;width: auto;">
+              <form class="form_share" action="accueil.php"  method="GET" >
+                <input  class="input_share form-control" type="url" name="link" placeholder="Partager un lien">
+                 <input style="padding-bottom:30px"class="input_share form-control" type="text" name="commentaire" placeholder="Commenter le lien" required>
+                 <input style="width:auto;" type="submit" value="Partager" class=" btn btn-primary pull-right"required>
+              </form>
+            </div>
+        </div>
       </div>
+
 
 
     <!-- Partie pour visualisé les 5 articles ayant eux le plus d'intéractions dans la journée-->

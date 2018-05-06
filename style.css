@@ -57,6 +57,17 @@ a, a:hover{
 	color: black;
 }
 
+/* partager un lien */
+.input_share{
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.form_share{
+	margin-right: 10px;
+  margin-left: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+}
 .publication, .partage{
 	padding-top: 10px
 }
