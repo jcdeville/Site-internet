@@ -90,7 +90,7 @@ if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
                  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
                  header("Location:accueil.php");
                }
-               menu_vote('accueil.php',$article['id_link']);
+               menu_vote('links','accueil.php',$article['id_link']);
                  ?>
               </div>
             </div>
@@ -147,7 +147,7 @@ if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
                   </div>
                 </div>
 
-                <?php menu_vote('accueil.php',$article['id_link']) ;?>
+                <?php menu_vote('links','accueil.php',$article['id_link']) ;?>
 
               </div>
             </div>

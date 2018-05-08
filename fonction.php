@@ -368,13 +368,42 @@ function last_modification_date_update($id_link){
   mysqli_close($connexion);
 }
 
-function menu_vote($page_web,$id_link)
-{?>
+function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
   <div class="card-footer">
     <form class="form_share" action='<?=$page_web?>'  method="GET">
+      <?php
+      if ($type_vote=='comments') {
+        ?>
+        <input type='hidden' name='id_comment' value='<?=$id_object?>'>
+        <input type='hidden' name='id_link' value='<?=$id_link?>'>
+        <?php
+        if (valeur_vote_de_user($type_vote,$id_object)=='upvote' ) {
+          ?>
+             <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
+
+          <?php
+            }
+            else{
+              ?>
+              <input type="submit"  class="btn btn-outline-success" name="value_vote" value="upvote">
+          <?php
+            }
+          echo compteur_vote($type_vote,$id_object,'upvote');
+          if (valeur_vote_de_user($type_vote,$id_object)=='downvote' ) {
+            ?>
+               <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
+            <?php  }
+              else {?>
+              <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
+            <?php  }
+            echo compteur_vote($type_vote,$id_object,'downvote');
+      }
+
+      else{
+        ?>
       <input type='hidden' name='id_link' value='<?=$id_link?>'>
       <?php
-      if (valeur_vote_de_user('links',$id_link)=='upvote' ) {
+      if (valeur_vote_de_user($type_vote,$id_link)=='upvote' ) {
         ?>
            <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
 
@@ -386,17 +415,17 @@ function menu_vote($page_web,$id_link)
 
         <?php
           }
-        echo compteur_vote('links',$id_link,'upvote');
-        if (valeur_vote_de_user('links',$id_link)=='downvote' ) {
+        echo compteur_vote($type_vote,$id_link,'upvote');
+        if (valeur_vote_de_user($type_vote,$id_link)=='downvote' ) {
           ?>
              <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
           <?php  }
             else {?>
             <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
           <?php  }
-          echo compteur_vote('links',$id_link,'downvote')
+          echo compteur_vote($type_vote,$id_link,'downvote');
 
-    ?>
+    }?>
   </form>
 </div>
   <?php

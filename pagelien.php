@@ -81,7 +81,7 @@ if(isset($_GET['vote_comment'])){
                }
                  ?>
                   <?php
-                  menu_vote('pagelien.php',$_GET['id_link']);
+                  menu_vote('links','pagelien.php',$_GET['id_link'],$_GET['id_link']);
                   if(droit($_GET['id_link'],'link')==true){
                     ?>
                     <form action="pagelien.php" method="GET">
@@ -130,14 +130,13 @@ if(isset($_GET['vote_comment'])){
       </div>
     </div>
 
-            <div class="row" style="padding-top: 10px">
-              <div class="col-md-6" style="margin:auto;">
-                <div class="card" style="width: auto; " >
-                    <h3 style="text-align: center">Commentaires concernant <?=$article['link_name']?></h3>
-                </div>
-              </div>
-            </div>
-
+    <?php
+    if(isset($_GET['value_vote'])){
+     last_modification_date_update($_GET['id_link']);
+     ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
+     header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+   }
+     ?>
       <?php
       $commentaires = commentaires($_GET['id_link']);
       foreach ($commentaires as $commentaire){
@@ -151,68 +150,46 @@ if(isset($_GET['vote_comment'])){
             <div class="card" style="width: auto; " >
               <div class="container-fluid"style="padding-bottom:10px; padding-top:10px" >
                 <div class="card" style="width: auto;">
+                  <div >
+                    <a  class="titre_lien"href=""><?="".pseudo_de_user($commentaire['id_user'])?></a>
+                    <p class="titre_lien date"><?= "".$commentaire['date']?></p>
+
+                  </div>
                   <div class="card-body" style="padding-top:0px">
-                    <p class="card-text">
-                      <a href=""><?="".pseudo_de_user($commentaire['id_user'])?></a>
-                    </p>
+
                     <div class="card" style="margin:auto;text-align:center">
                       <a> <?= "".$commentaire['content_comment']?></a>
                   </div>
                   </div>
+                  <?php menu_vote('comments','pagelien.php',$_GET['id_link'],$commentaire['id_comment']); ?>
+                  <?php
+                  if(droit($commentaire['id_comment'],'comment')==true){
+                    ?>
+                    <form action="pagelien.php" method="GET" style="padding-bottom:15px; padding-top:15px;">
+                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                      <input type="submit" name="kill_comment" value="Supprimer commentaire">
+                    </form>
+                    <form action="modifier.php" method="GET" >
+                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                      <input type='hidden' name='modification' value='commentaire'>
+                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                      <input type="submit" name="modifier_commentaire" value="Modifier commentaire">
+                    </form>
+
+                    <?php
+                  }
+                  ?>
                 </div>
               </div>
-
-
-
-              <a href=""><?="".pseudo_de_user($commentaire['id_user'])?></a>
-              <span><?= "Contenu du commentaire = ".$commentaire['content_comment']?></span><br/>
-              <span><?= "Date = ".$commentaire['date']?></span><br/>
           </div>
         </div>
-
-        </div>
-
-        <div class="row" style="border-top : solid;">
-          <div class="col" style="margin:10px; padding:15px;">
-
-            <article>
-
-            </article>
-
-
+      </div>
 
             <!-- Affichage des boutons de modification -->
 
-            <?php
-            if(droit($commentaire['id_comment'],'comment')==true){
-              ?>
-              <form action="pagelien.php" method="GET" style="padding-bottom:15px; padding-top:15px;">
-                <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                <input type="submit" name="kill_comment" value="Supprimer commentaire">
-              </form>
-              <form action="modifier.php" method="GET" >
-                <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                <input type='hidden' name='modification' value='commentaire'>
-                <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                <input type="submit" name="modifier_commentaire" value="Modifier commentaire">
-              </form>
 
-              <?php
-            }
-            ?>
-          </div>
-
-          <div class="col">
-
-            <?php
-            // Affiche la zone de vote pour les commentaires
-            zone_de_vote($_GET['id_link'],'comments',$commentaire['id_comment']);
-            ?>
-          </div>
-        </div>
-
-        <?php
+          <?php
       }
       ?>
     </section>
