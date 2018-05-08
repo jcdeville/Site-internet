@@ -7,7 +7,15 @@ include("entete.php");
 if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
   ajouter_article($_GET['link_name'],$_GET['link'],$_GET['commentaire']);
 }
+
+if(isset($_GET['value_vote'])){
+ last_modification_date_update($_GET['id_link']);
+ ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+ header("Location:accueil.php");
+}
 ?>
+
+
 
 <body>
   <!-- header -->
@@ -84,13 +92,8 @@ if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
                 </div>
                 </div>
 
-                <?php
-                if(isset($_GET['value_vote'])){
-                 last_modification_date_update($_GET['id_link']);
-                 ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
-                 header("Location:accueil.php");
-               }
-               menu_vote('links','accueil.php',$article['id_link']);
+<?php
+               menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
                  ?>
               </div>
             </div>
@@ -134,6 +137,8 @@ if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
             <div class="container-fluid"style="padding-bottom:10px" >
               <div class="card" style="width: auto;">
                 <div>
+                  <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
+
                   <p class="titre_lien pseudo"><?="".$pseudo?></p>
                   <p class="titre_lien date"><?= "".$article['date']?></p>
                 </div>
@@ -147,7 +152,7 @@ if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
                   </div>
                 </div>
 
-                <?php menu_vote('links','accueil.php',$article['id_link']) ;?>
+                <?php menu_vote('links','accueil.php',$article['id_link'],$article['id_link']) ;?>
 
               </div>
             </div>

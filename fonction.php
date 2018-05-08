@@ -389,6 +389,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
           <?php
             }
           echo compteur_vote($type_vote,$id_object,'upvote');
+
           if (valeur_vote_de_user($type_vote,$id_object)=='downvote' ) {
             ?>
                <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">

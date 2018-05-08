@@ -20,6 +20,17 @@ if(isset($_GET['vote_comment'])){
   last_modification_date_update($_GET['id_link']);
   ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
 }
+
+if(isset($_GET['value_vote'])){
+ last_modification_date_update($_GET['id_link']);
+ ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+ header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+}
+if(isset($_GET['value_vote'])){
+ last_modification_date_update($_GET['id_link']);
+ ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
+ header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+}
 ?>
 
 <body>
@@ -73,26 +84,28 @@ if(isset($_GET['vote_comment'])){
                 </div>
                 </div>
 
-                <?php
-                if(isset($_GET['value_vote'])){
-                 last_modification_date_update($_GET['id_link']);
-                 ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
-                 header("Location:pagelien.php?id_link=".$_GET['id_link']."");
-               }
-                 ?>
+
                   <?php
                   menu_vote('links','pagelien.php',$_GET['id_link'],$_GET['id_link']);
                   if(droit($_GET['id_link'],'link')==true){
                     ?>
-                    <form action="pagelien.php" method="GET">
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type="submit" name="kill_article" value="Supprimer">
-                    </form>
-                    <form action="modifier.php" method="GET">
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type='hidden' name='modification' value='lien'>
-                      <input type="submit" name="modifier_commentaire" value="Modifier commentaire">
-                    </form>
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-md-6" style="text-align:center">
+                          <form action="pagelien.php" method="GET">
+                            <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                            <input type="submit" class="btn btn-primary" name="kill_article" value="Supprimer">
+                          </form>
+                        </div>
+                        <div class="col-md-6" style="text-align:center">
+                          <form action="modifier.php" method="GET">
+                            <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                            <input type='hidden' name='modification' value='lien'>
+                            <input type="submit" class="btn btn-primary" name="modifier_commentaire" value="Modifier le commentaire">
+                          </form>
+                          </div>
+                    </div>
+
                     <?php
                   }
                   ?>
@@ -130,13 +143,6 @@ if(isset($_GET['vote_comment'])){
       </div>
     </div>
 
-    <?php
-    if(isset($_GET['value_vote'])){
-     last_modification_date_update($_GET['id_link']);
-     ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
-     header("Location:pagelien.php?id_link=".$_GET['id_link']."");
-   }
-     ?>
       <?php
       $commentaires = commentaires($_GET['id_link']);
       foreach ($commentaires as $commentaire){
@@ -162,24 +168,36 @@ if(isset($_GET['vote_comment'])){
                   </div>
                   </div>
                   <?php menu_vote('comments','pagelien.php',$_GET['id_link'],$commentaire['id_comment']); ?>
-                  <?php
-                  if(droit($commentaire['id_comment'],'comment')==true){
-                    ?>
-                    <form action="pagelien.php" method="GET" style="padding-bottom:15px; padding-top:15px;">
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                      <input type="submit" name="kill_comment" value="Supprimer commentaire">
-                    </form>
-                    <form action="modifier.php" method="GET" >
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type='hidden' name='modification' value='commentaire'>
-                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                      <input type="submit" name="modifier_commentaire" value="Modifier commentaire">
-                    </form>
-
                     <?php
-                  }
-                  ?>
+                    if(droit($commentaire['id_comment'],'comment')==true){
+                      ?>
+                      <div class="card-footer" >
+                        <div class="row">
+                          <div class="col-md-6" style="text-align:center">
+                            <form action="pagelien.php" method="GET" style="">
+                              <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                              <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                              <input type="submit"class="btn btn-primary" name="kill_comment" value="Supprimer le commentaire">
+
+                            </form>
+                          </div>
+                          <div class="col-md-6" style="text-align:center">
+
+                        <form action="modifier.php" method="GET" >
+                          <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                          <input type='hidden' name='modification' value='commentaire'>
+                          <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                          <input type="submit" class="btn btn-primary" name="modifier_commentaire" value="Modifier le commentaire">
+                        </form>
+                        </div>
+                        </div>
+
+
+                    </div>
+                      <?php
+                    }
+                    ?>
+
                 </div>
               </div>
           </div>
