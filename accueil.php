@@ -41,8 +41,10 @@ if (isset($_GET['link'],$_GET['commentaire'])){
         <div class="card" style="padding-top: 10px;width: auto;">
           <form class="form_share" action="accueil.php"  method="GET" >
             <input  class="input_share form-control" type="url" name="link" placeholder="Partager un lien">
-            <input style="padding-bottom:30px"class="input_share form-control" type="text" name="commentaire" placeholder="Commenter le lien" required>
-            <input style="width:auto;" type="submit" value="Partager" class="btn btn-primary pull-right"required>
+            <div class="input-group">
+              <textarea style="padding-bottom:30px" class="form-control"type="text" name="commentaire" placeholder="Commenter le lien" required></textarea>
+            </div>
+            <input style="width:auto;" type="submit" value="Partager" class="input_share btn btn-primary pull-right"required>
           </form>
         </div>
       </div>
@@ -76,18 +78,30 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                   </p>
 
                   <div class="card" style="margin:auto;text-align:center">
-                    <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a><br/>
-                  </div>
+                    <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                 </div>
+                </div>
+                
+                <?php
+                if(isset($_GET['value_vote'])){
+                 last_modification_date_update($_GET['id_link']);
+                 ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+               }
+                 ?>
 
 
                 <div class="card-footer">
-                  <img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
-                  <a class="link_vote" href="">Upvote</a>
+                  <form class="form_share" action="accueil.php"  method="GET">
+                    <img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
+                    <input type='hidden' name='id_link' value="<?=$article['id_link']?>">
+                    <input type="submit" name="value_vote" value="positif">
+                    <?php
+                    echo compteur_vote('links',$article['id_link'],'positif');
+                    ?>
+                  </form>
 
-                  <?php
-                  echo compteur_vote('links',$article['id_link'],'positif');
-                  ?>
+
+
                   <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
                   <a class="link_vote" href="">Downvote</a>
                   <?php echo compteur_vote('links',$article['id_link'],'négatif') ?>

@@ -256,15 +256,15 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
     mysqli_stmt_execute($action);
     mysqli_close($connexion);
   }
-  elseif($resultat['$value_vote']!=$value_vote){
+  elseif($resultat['value_vote']!=$value_vote){
     $connexion = connexion();
     $requete = "UPDATE votes  SET value_vote = '".$value_vote."', date = NOW() WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
     $action = mysqli_prepare($connexion,$requete);
     mysqli_stmt_execute($action);
     mysqli_close($connexion);
   }
-  header("Location:pagelien.php?id_link=".$id_link."");
-  exit;
+//  header("Location:pagelien.php?id_link=".$id_link."");
+  //exit;
 }
 
 
