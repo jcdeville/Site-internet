@@ -25,6 +25,7 @@ $deletTbtLinks = "DROP TABLE IF EXISTS `links`;";
 
 $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
   `id_link` int(11) NOT NULL AUTO_INCREMENT,
+  `link_name` varchar(255) NOT NULL,
   `link` longtext NOT NULL,
   `id_user` int(11) NOT NULL,
   `comment_user` text NOT NULL,
@@ -35,8 +36,8 @@ $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
   KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB;";
 
-$qInitTbtLinks = "INSERT INTO `links` (`link`, `id_user`, `comment_user`,`interaction_number`) VALUES
-('https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google',0);";
+$qInitTbtLinks = "INSERT INTO `links` (  `link_name`,`link`, `id_user`, `comment_user`,`interaction_number`) VALUES
+('moteur de recherche','https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google',0);";
 
 
 $deletTbtComments = "DROP TABLE IF EXISTS `comments`;";

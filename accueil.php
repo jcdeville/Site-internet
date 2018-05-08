@@ -4,8 +4,8 @@ require("fonction.php");
 testacces();
 include("entete.php");
 
-if (isset($_GET['link'],$_GET['commentaire'])){
-  ajouter_article($_GET['link'],$_GET['commentaire']);
+if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
+  ajouter_article($_GET['link_name'],$_GET['link'],$_GET['commentaire']);
 }
 ?>
 
@@ -40,7 +40,8 @@ if (isset($_GET['link'],$_GET['commentaire'])){
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="padding-top: 10px;width: auto;">
           <form class="form_share" action="accueil.php"  method="GET" >
-            <input  class="input_share form-control" type="url" name="link" placeholder="Partager un lien">
+            <input  class="input_share form-control" type="text" name="link_name" placeholder="Donner un titre à ce lien" required>
+            <input  class="input_share form-control" type="url" name="link" placeholder="Partager un lien" required>
             <div class="input-group">
               <textarea style="padding-bottom:30px" class="form-control"type="text" name="commentaire" placeholder="Commenter le lien" required></textarea>
             </div>
@@ -69,6 +70,7 @@ if (isset($_GET['link'],$_GET['commentaire'])){
             <div class="container-fluid"style="padding-bottom:10px" >
               <div class="card" style="width: auto;">
                 <div>
+                  <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
                   <p class="titre_lien pseudo"><?="".$pseudo?></p>
                   <p class="titre_lien date"><?= "".$article['date']?></p>
                 </div>
@@ -88,42 +90,8 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
                  header("Location:accueil.php");
                }
+               menu_vote('accueil.php',$article['id_link']);
                  ?>
-
-
-                <div class="card-footer">
-                  <form class="form_share" action="accueil.php"  method="GET">
-                    <input type='hidden' name='id_link' value="<?=$article['id_link']?>">
-                    <?php
-                    if (valeur_vote_de_user('links',$article['id_link'])=='upvote' ) {
-                      ?>
-                         <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
-
-                      <?php
-                        }
-                        else{
-                          ?>
-                          <input type="submit"  class="btn btn-outline-success" name="value_vote" value="upvote">
-
-                      <?php
-                        }
-                      echo compteur_vote('links',$article['id_link'],'upvote');
-                      if (valeur_vote_de_user('links',$article['id_link'])=='downvote' ) {
-                        ?>
-                           <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
-                        <?php  }
-                          else {?>
-                          <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
-                        <?php  }
-                        echo compteur_vote('links',$article['id_link'],'downvote')
-                  ?>
-                  </form>
-
-
-
-                  <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
-
-                </div>
               </div>
             </div>
 
@@ -175,24 +143,12 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                   </p>
 
                   <div class="card" style="margin:auto;text-align:center">
-                    <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a><br/>
+                    <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                   </div>
                 </div>
 
+                <?php menu_vote('accueil.php',$article['id_link']) ;?>
 
-                <div class="card-footer">
-                  <img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
-                  <a class="link_vote" href="">Upvote</a>
-
-                  <?php
-                  echo compteur_vote('links',$article['id_link'],'upvote');
-                  ?>
-                  <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
-                  <a class="link_vote" href="">Downvote</a>
-                  <?php echo compteur_vote('links',$article['id_link'],'downvote') ?>
-                  <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
-
-                </div>
               </div>
             </div>
 
@@ -203,7 +159,6 @@ if (isset($_GET['link'],$_GET['commentaire'])){
         </div>
       </div>
     </div>
-
-  </div>
+  </section>
 </body>
 </html>

@@ -113,14 +113,14 @@ function selectionner_id_link($requete){
 }
 
 // Ajouter un lien
-function ajouter_article($link,$commentaire){
+function ajouter_article($link_name,$link,$commentaire){
   $connexion = connexion();
   $requete = "SELECT * FROM links WHERE link='".$link."'";
   $action = mysqli_query($connexion,$requete);
   $resultat = mysqli_fetch_assoc($action);
   $commentaire = addslashes($commentaire);
   if(!$resultat){
-    $insertion = "INSERT INTO links(link,id_user,comment_user,interaction_number) VALUES  ('".$link."','".$_SESSION['id_user']."','".$commentaire."',0)";
+    $insertion = "INSERT INTO links(link_name,link,id_user,comment_user,interaction_number) VALUES  ('".$link_name."','".$link."','".$_SESSION['id_user']."','".$commentaire."',0)";
     $action = mysqli_prepare($connexion,$insertion);
     mysqli_stmt_execute($action);
   }
@@ -368,5 +368,39 @@ function last_modification_date_update($id_link){
   mysqli_close($connexion);
 }
 
+function menu_vote($page_web,$id_link)
+{?>
+  <div class="card-footer">
+    <form class="form_share" action='<?=$page_web?>'  method="GET">
+      <input type='hidden' name='id_link' value='<?=$id_link?>'>
+      <?php
+      if (valeur_vote_de_user('links',$id_link)=='upvote' ) {
+        ?>
+           <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
+
+        <?php
+          }
+          else{
+            ?>
+            <input type="submit"  class="btn btn-outline-success" name="value_vote" value="upvote">
+
+        <?php
+          }
+        echo compteur_vote('links',$id_link,'upvote');
+        if (valeur_vote_de_user('links',$id_link)=='downvote' ) {
+          ?>
+             <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
+          <?php  }
+            else {?>
+            <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
+          <?php  }
+          echo compteur_vote('links',$id_link,'downvote')
+
+    ?>
+  </form>
+</div>
+  <?php
+
+}
 
 ?>
