@@ -81,11 +81,12 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                     <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                 </div>
                 </div>
-                
+
                 <?php
                 if(isset($_GET['value_vote'])){
                  last_modification_date_update($_GET['id_link']);
                  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+                 header("Location:accueil.php");
                }
                  ?>
 
@@ -94,9 +95,17 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                   <form class="form_share" action="accueil.php"  method="GET">
                     <img src="https://www.stickers-shopping.fr/prestashop/img/p/1564-1626-large.jpg" style="width:20px;height:20px;">
                     <input type='hidden' name='id_link' value="<?=$article['id_link']?>">
-                    <input type="submit" name="value_vote" value="positif">
                     <?php
-                    echo compteur_vote('links',$article['id_link'],'positif');
+                    if (!trouver_vote_de_user('links',$article['id_link'])) {
+                      ?>
+                     <input type="submit"  class="btn btn-outline-success" name="value_vote" value="upvote">
+                  <?php  }
+                    elseif(valeur_vote_de_user('links',$article['id_link'])=='upvote') {?>
+                    <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
+                  <?php  }?>
+
+                    <?php
+                    echo compteur_vote('links',$article['id_link'],'upvote');
                     ?>
                   </form>
 
@@ -104,7 +113,7 @@ if (isset($_GET['link'],$_GET['commentaire'])){
 
                   <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
                   <a class="link_vote" href="">Downvote</a>
-                  <?php echo compteur_vote('links',$article['id_link'],'négatif') ?>
+                  <?php echo compteur_vote('links',$article['id_link'],'downvote') ?>
                   <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
 
                 </div>
@@ -169,11 +178,11 @@ if (isset($_GET['link'],$_GET['commentaire'])){
                   <a class="link_vote" href="">Upvote</a>
 
                   <?php
-                  echo compteur_vote('links',$article['id_link'],'positif');
+                  echo compteur_vote('links',$article['id_link'],'upvote');
                   ?>
                   <img src="http://www.stickers-shopping.fr/prestashop/img/p/1567-1629-large.jpg" style="width:20px;height:20px;">
                   <a class="link_vote" href="">Downvote</a>
-                  <?php echo compteur_vote('links',$article['id_link'],'négatif') ?>
+                  <?php echo compteur_vote('links',$article['id_link'],'downvote') ?>
                   <a class="link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
 
                 </div>

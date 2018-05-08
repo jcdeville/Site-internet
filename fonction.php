@@ -263,7 +263,15 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
     mysqli_stmt_execute($action);
     mysqli_close($connexion);
   }
-//  header("Location:pagelien.php?id_link=".$id_link."");
+  else {
+    $connexion = connexion();
+    $requete = "DELETE FROM votes WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND id_user='".$_SESSION['id_user']."'";
+    $action = mysqli_prepare($connexion,$requete);
+    mysqli_stmt_execute($action);
+    mysqli_close($connexion);
+
+  }
+  //header("Location:pagelien.php?id_link=".$id_link."");
   //exit;
 }
 
@@ -280,16 +288,16 @@ function zone_de_vote($id_link,$type_vote,$id_object){
         ?>
         <input type='hidden' name='id_link' value='<?=$id_link?>'>
         <input type='hidden' name='id_comment' value='<?=$id_object?>'>
-        <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('comments',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
-        <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('comments',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
+        <input type="radio" name="value_vote" value="upvote" <?php if(valeur_vote_de_user('comments',$id_object)=="upvote") { echo 'checked="checked"' ; } ?>>upvote
+        <input type="radio" name="value_vote" value="downvote" <?php if(valeur_vote_de_user('comments',$id_object)=="downvote") { echo 'checked="checked"' ; } ?>>downvote
         <input type="submit" name="vote_comment" value="Voter">
         <?php
       }
       if($type_vote=='links'){
         ?>
         <input type='hidden' name='id_link' value='<?=$id_link?>'>
-        <input type="radio" name="value_vote" value="Positif" <?php if(valeur_vote_de_user('links',$id_object)=="Positif") { echo 'checked="checked"' ; } ?>>Positif
-        <input type="radio" name="value_vote" value="Négatif" <?php if(valeur_vote_de_user('links',$id_object)=="Négatif") { echo 'checked="checked"' ; } ?>>Négatif
+        <input type="radio" name="value_vote" value="upvote" <?php if(valeur_vote_de_user('links',$id_object)=="upvote") { echo 'checked="checked"' ; } ?>>upvote
+        <input type="radio" name="value_vote" value="downvote" <?php if(valeur_vote_de_user('links',$id_object)=="downvote") { echo 'checked="checked"' ; } ?>>downvote
         <input type="submit" name="vote_lien" value="Voter">
         <?php
       }
@@ -297,15 +305,15 @@ function zone_de_vote($id_link,$type_vote,$id_object){
     </form>
 
     <div style="border:solid; margin:10px; padding:15px;">
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Positif')?> votes positifs</p>
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'Négatif')?> votes négatifs</p>
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'upvote')?> votes upvotes</p>
+      <p>Il y a <?=compteur_vote($type_vote,$id_object,'downvote')?> votes downvotes</p>
     </div>
 
   </div>
   <?php
 }
 
-// Renvoie le nombre de votes positifs ou négatifs associés à un commentaire
+// Renvoie le nombre de votes upvotes ou downvotes associés à un commentaire
 function compteur_vote($type_vote,$id_object,$value_vote){
   $connexion = connexion();
   $requete = "SELECT COUNT(*) FROM votes  WHERE type_vote='".$type_vote."' AND id_object='".$id_object."' AND value_vote='".$value_vote."'";
