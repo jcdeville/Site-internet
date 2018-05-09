@@ -73,7 +73,7 @@ $qTbVotes = "CREATE TABLE IF NOT EXISTS `votes` (
 ) ENGINE=InnoDB;";
 
 $qInitTbtVotes = "INSERT INTO `votes` (`id_link`, `id_user`, `type_vote`, `id_object`, `value_vote`) VALUES
-(1, 1, 'comments', '1', 'Positif');";
+(1, 1, 'comments', '1', 'upvote');";
 
 
 echo "Connexion au serveur MySQL.</br>";

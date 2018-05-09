@@ -78,9 +78,9 @@ if(isset($_GET['value_vote'])){
             <div class="container-fluid"style="padding-bottom:10px" >
               <div class="card" style="width: auto;">
                 <div>
-                  <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
-                  <p class="titre_lien pseudo"><?="".$pseudo?></p>
-                  <p class="titre_lien date"><?= "".$article['date']?></p>
+                  <a style="margin-top: 0px"class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
+                  <p style="margin-top:3px" class="titre_lien pseudo"><?="".$pseudo?></p>
+                  <p   style="margin-top:3px" class="titre_lien date"><?= "".$article['date']?></p>
                 </div>
                 <div class="card-body" style="padding-top:0px">
                   <p class="card-text">
