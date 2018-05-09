@@ -26,6 +26,7 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'])){
 }
 ?>
 
+
 <body>
   <div class="container">
 
