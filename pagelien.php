@@ -31,6 +31,12 @@ if(isset($_GET['value_vote'])){
  ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
  header("Location:pagelien.php?id_link=".$_GET['id_link']."");
 }
+if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modification'],$_GET['modifier_commentaire'])){
+  if(droit($_GET['id_link'],'link')==true){
+    last_modification_date_update($_GET['id_link']);
+    modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
+  }
+}
 ?>
 
 <body>
@@ -76,11 +82,30 @@ if(isset($_GET['value_vote'])){
                 </div>
                 <div class="card-body" style="padding-top:0px">
                   <p class="card-text">
-                    <?= "".$article['comment_user']?>
-                  </p>
+                    <?php
+                      if (isset($_GET['modification'],$_GET['modifier_commentaire'])) {
+                         if($_GET['modification']=='lien' && $_GET['modifier_commentaire']=='Modifier le commentaire'){
+                        ?>
+                        <form class="" action="pagelien.php" method="get">
+                          <div class="input-group">
+                            <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                            <input type='hidden' name='link' value='<?=$article['link']?>'>
+                            <input type='hidden' name='modification' value='lien'>
+                            <textarea  class="form-control" style="padding-bottom:30px" type="text" name="comment_user" value="" required><?=$article['comment_user']?></textarea>
+                            <input type="submit" class="btn btn-primary" name="modifier_commentaire" value="Modifier le commentaire">
+                          </div>
+                        </form>
 
+                        <?php
+                        }
+                    }
+                    else {?>
+                      <?= "".$article['comment_user']?>
+                    <?php
+                    } ?>
+                  </p>
                   <div class="card" style="margin:auto;text-align:center">
-                    <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
+                      <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                 </div>
                 </div>
 
@@ -91,19 +116,23 @@ if(isset($_GET['value_vote'])){
                     ?>
                     <div class="card-footer">
                       <div class="row">
-                        <div class="col-md-6" style="text-align:center">
+                        <div class="col-md-6" style="margin : auto;text-align:center">
                           <form action="pagelien.php" method="GET">
                             <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
                             <input type="submit" class="btn btn-primary" name="kill_article" value="Supprimer">
                           </form>
                         </div>
+                        <?php if (!isset($_GET['modification'],$_GET['modifier_commentaire'])) { ?>
+
                         <div class="col-md-6" style="text-align:center">
-                          <form action="modifier.php" method="GET">
+                          <form action="pagelien.php" method="GET">
                             <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                            <input type='hidden' name='link' value='<?=$article['link']?>'>
                             <input type='hidden' name='modification' value='lien'>
                             <input type="submit" class="btn btn-primary" name="modifier_commentaire" value="Modifier le commentaire">
                           </form>
-                          </div>
+                        </div>
+                      <?php } ?>
                     </div>
 
                     <?php

@@ -44,7 +44,6 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'])){
         $action = mysqli_query($connexion,$requete);
         $resultat=mysqli_fetch_assoc($action);
         ?>
-        <a class="nav-link active" href="http://localhost/Tuto/pagelien.php?id_link=<?=$_GET['id_link']?>">Page lien</a>
 
         <form action="modifier.php"  method="GET">
           <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
