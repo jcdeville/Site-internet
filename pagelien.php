@@ -37,6 +37,12 @@ if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modificati
     modifier_article($_GET['id_link'],$_GET['link'],$_GET['comment_user']);
   }
 }
+if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['modification'],$_GET['modifier'])){
+  if(droit($_GET['id_comment'],'comment')==true){
+    last_modification_date_update($_GET['id_link']);
+    modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
+  }
+}
 ?>
 
 <body>
@@ -101,7 +107,6 @@ if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modificati
                         </div>
                         </form>
                         </p>
-
                         <?php
                         }
                     }
@@ -200,7 +205,29 @@ if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modificati
                   <div class="card-body" style="padding-top:0px">
 
                     <div class="card" style="margin:auto;text-align:center">
-                      <a> <?= "".$commentaire['content_comment']?></a>
+                      <?php
+                        if (isset($_GET['modification'],$_GET['modifier'])) {
+                           if($_GET['modification']=='commentaire' && $_GET['modifier']=='Modifier'){
+                          ?>
+                          <form class="" action="pagelien.php" method="get">
+                            <div class="">
+                              <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                              <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                              <input type='hidden' name='modification' value='commentaire'>
+                              <textarea  class="form-control" style="padding-bottom:30px" type="text" name="content_comment" value="" required><?=$commentaire['content_comment']?></textarea>
+                            </div>
+                          <div style="padding-top:10px">
+                            <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
+                          </div>
+                          </form>
+                          </p>
+                          <?php
+                          }
+                      }
+                      else {?>
+                        <a> <?= "".$commentaire['content_comment']?></a>
+                      <?php
+                      } ?>
                   </div>
                   </div>
                   <?php menu_vote('comments','pagelien.php',$_GET['id_link'],$commentaire['id_comment']); ?>
@@ -219,7 +246,7 @@ if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modificati
                           </div>
                           <div class="col-md-6" style="text-align:center">
 
-                        <form action="modifier.php" method="GET" >
+                        <form action="pagelien.php" method="GET" >
                           <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
                           <input type='hidden' name='modification' value='commentaire'>
                           <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
