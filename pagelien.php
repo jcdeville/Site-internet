@@ -43,6 +43,11 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
     modifier_commentaire($_GET['id_comment'],$_GET['content_comment'],$_GET['id_link']);
   }
 }
+
+if(isset($_GET['favoris'])){
+ ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
+ header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+}
 ?>
 
 <body>

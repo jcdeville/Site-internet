@@ -279,8 +279,41 @@ function ajouter_vote($id_link,$type_vote,$id_object,$value_vote){
     mysqli_close($connexion);
 
   }
-  //header("Location:pagelien.php?id_link=".$id_link."");
-  //exit;
+}
+
+
+// regarde si l'utilisateur a mit le lien en favoris
+function lien_favoris($id_link){
+  $connexion = connexion();
+  $requete = "SELECT * FROM favoris  WHERE id_link='".$id_link."' AND id_user='".$_SESSION['id_user']."' ";
+  $action = mysqli_query($connexion,$requete);
+  $resultat = mysqli_fetch_assoc($action);
+  if(isset($resultat['id_favoris'])){
+    return $resultat['id_link'];
+  }
+else {
+  return NULL;
+}
+}
+// Ajoute au favoris
+function ajouter_favoris($id_link){
+  $resultat=lien_favoris($id_link);
+  if(!$resultat){
+    $connexion = connexion();
+    $insertion = "INSERT INTO favoris (id_link,id_user)
+    VALUES ('".$id_link."','".$_SESSION['id_user']."')";
+    $action = mysqli_prepare($connexion,$insertion);
+    mysqli_stmt_execute($action);
+    mysqli_close($connexion);
+}
+else {
+  $connexion = connexion();
+  $requete = "DELETE FROM favoris WHERE id_link='".$id_link."' AND id_user='".$_SESSION['id_user']."'";
+  $action = mysqli_prepare($connexion,$requete);
+  mysqli_stmt_execute($action);
+  mysqli_close($connexion);
+
+}
 }
 
 
@@ -428,13 +461,21 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         if (valeur_vote_de_user($type_vote,$id_link)=='downvote' ) {
           ?>
              <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
+
           <?php  }
             else {?>
             <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
+
           <?php  }
           echo compteur_vote($type_vote,$id_link,'downvote');
-
-    }?>
+    }
+    if($type_vote=='links' && lien_favoris($id_link)==NULL){
+      ?><input type="submit"  class="btn btn-outline-warning" name="favoris" value="favoris"><?php
+    }
+    else {
+      ?><input type="submit"  class="btn btn-warning" name="favoris" value="favoris"><?php
+    }
+    ?>
   </form>
 </div>
   <?php

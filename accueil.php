@@ -13,6 +13,12 @@ if(isset($_GET['value_vote'])){
  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
  header("Location:accueil.php");
 }
+
+if(isset($_GET['favoris'])){
+ ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
+ header("Location:accueil.php");
+}
+
 ?>
 
 
@@ -95,6 +101,7 @@ if(isset($_GET['value_vote'])){
 
 <?php
                menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+
                  ?>
               </div>
             </div>

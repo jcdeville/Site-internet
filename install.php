@@ -75,6 +75,20 @@ $qTbVotes = "CREATE TABLE IF NOT EXISTS `votes` (
 $qInitTbtVotes = "INSERT INTO `votes` (`id_link`, `id_user`, `type_vote`, `id_object`, `value_vote`) VALUES
 (1, 1, 'comments', '1', 'upvote');";
 
+$deletTbtFavoris = "DROP TABLE IF EXISTS `favoris`;";
+
+$qTbFavoris = "CREATE TABLE IF NOT EXISTS `favoris` (
+  `id_favoris` int(11) NOT NULL AUTO_INCREMENT,
+  `id_link` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_favoris`),
+  KEY `id_user` (`id_user`),
+  KEY `id_link` (`id_link`)
+) ENGINE=InnoDB;";
+
+
+
 
 echo "Connexion au serveur MySQL.</br>";
 $connexion = mysqli_connect($GLOBALS['dbServ'], $GLOBALS['dbUser'], $GLOBALS['dbPass'], $GLOBALS['dbName']);
@@ -90,11 +104,14 @@ echo "Création de la table comments.</br>";
 mysqli_query($connexion, $deletTbtComments);
 mysqli_query($connexion, $qTbComments);
 mysqli_query($connexion, $qInitTbtComments);
-echo "Création de la table votes .";
+echo "Création de la table votes.</br>";
 mysqli_query($connexion, $deletTbtVotes);
 mysqli_query($connexion, $qTbVotes);
 mysqli_query($connexion, $qInitTbtVotes);
 
+echo "Création de la table favoris.</br>";
+mysqli_query($connexion, $deletTbtFavoris);
+mysqli_query($connexion, $qTbFavoris);
 
 mysqli_close($connexion);
 ?>
