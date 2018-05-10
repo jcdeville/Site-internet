@@ -55,16 +55,24 @@ function update_date_last_user_connexion(){
     mysqli_close($connexion);
   }
 }
+//regarde si le pseudo exite deja
+function user_existant($pseudo){
+  $connexion = connexion();
+  $requete = "SELECT * FROM users WHERE pseudo='".$pseudo."'";
+  $action = mysqli_query($connexion,$requete);
+  $user = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $user['pseudo'];
+}
 
-// Renvoie le menu
-function menu(){
-  ?>
-  <nav style="border-bottom: solid;">
-    <a href="accueil.php">Accueil</a>
-    <a href="profil.php">Profil</a>
-    <a href="connexion.php?deconnexion=ok">Deconnexion</a>
-  </nav>
-  <?php
+//regarde si l'adresse mail est déjà prise
+function email_existant($email){
+  $connexion = connexion();
+  $requete = "SELECT * FROM users WHERE email='".$email."'";
+  $action = mysqli_query($connexion,$requete);
+  $user = mysqli_fetch_assoc($action);
+  mysqli_close($connexion);
+  return $user['email'];
 }
 
 // Crée un compte et connecte l'utilisateur

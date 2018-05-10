@@ -14,21 +14,32 @@ include("entete.php");
 <!-- end header -->
 <?php
 // Inscrit la personne si les renseignements sont donnés
-if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
-  if(strlen($_POST['pseudo']) >= 4 && strlen($_POST['mot_de_passe']) >= 6){
+if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'],$_POST['confirmation_mot_de_passe'])){
+  if(strlen($_POST['pseudo']) >= 4 && strlen($_POST['mot_de_passe']) >= 6 && $_POST['mot_de_passe']==$_POST['confirmation_mot_de_passe'] && $_POST['pseudo']==user_existant($_POST['pseudo']) && $_POST['email']==email_existant($_POST['email'])){
     inscription($_POST['pseudo'],$_POST['mot_de_passe'],$_POST['email']);
   }
   else{
-    ?>
-    <div class="container">
-      <div class="col-md-5 pb_inscription">
-        <div class="alert alert-danger " role="alert" style="text-align:center">
-          Veuillez correctement renseigner vos informations
-        </div>
+  ?>
+  <div class="container">
+    <div class="col-md-5 pb_inscription">
+      <div class="alert alert-danger " role="alert" style="text-align:center">
+        <?php
+        if($_POST['mot_de_passe']!=$_POST['confirmation_mot_de_passe']){?>
+          Veuillez renseigner le même mot de passe;
+          <?php
+        }
+        elseif($_POST['pseudo']==user_existant($_POST['pseudo'])){?>
+          Le pseudo est deja pris<?php
+        }
+        elseif($_POST['email']==email_existant($_POST['email'])){?>
+          Vous possédez déjà un compte<?php
+        }
+        else{
+          ?>Veuillez correctement renseigner vos informations<?php
+        } ?>
       </div>
-
     </div>
-
+  </div>
     <?php
   }
 }
@@ -44,7 +55,7 @@ if (isset($_POST['pseudo'],$_POST['email'],$_POST['mot_de_passe'])){
           <input class="input_co" type="text" name="pseudo" placeholder="Nom d'utilisateur (4 caractères minimum)"required>
           <input class="input_co" type="email" name="email" placeholder="Adresse mail" >
           <input class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe (6 caractères minimum)"required>
-          <!-- <input type="password" name="mdp_verif" placeholder="Confirmation du mot de passe"> -->
+          <input class="input_co" type="password" name="confirmation_mot_de_passe" placeholder="Confirmation du mot de passe" required>
           <input type="submit" value="S'inscrire" class=" input_co btn btn-primary pull-right"required>
       </form>
      </div>
