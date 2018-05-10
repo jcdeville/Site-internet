@@ -41,10 +41,12 @@ include("entete.php");
           </div>
           <?php
           $liste_lien_commenté = "SELECT DISTINCT id_link FROM comments WHERE id_user='".$_SESSION['id_user']."' ORDER BY date DESC";
-
+          $liste_lien_voté = "SELECT DISTINCT id_link FROM votes WHERE id_user='".$_SESSION['id_user']."' GROUP BY id_link ORDER BY date DESC";
+          $id_links_2 = selectionner_id_link($liste_lien_voté);
     // ajouter le fait que l'utilisateur à upvoter ou donwvoter une publi
 
           $id_links = selectionner_id_link($liste_lien_commenté);
+          $id_links=$id_links+$id_links_2;
           foreach ($id_links as $id_link){
             $article = article($id_link['id_link']);
             $pseudo=pseudo_de_user($article['id_user']);
@@ -125,35 +127,7 @@ include("entete.php");
       </div>
     </div>
   </div>
-</section>
+  </section>
 
-
-    <!-- Partie pour visualisé tous les articles votés -->
-
-    <section style="border :solid; margin:10px; padding:15px;">
-      <h2>Liste des liens votés</h2>
-      <?php
-      $liste_lien_voté = "SELECT DISTINCT id_link FROM votes WHERE id_user='".$_SESSION['id_user']."' GROUP BY id_link ORDER BY date DESC";
-      $id_links = selectionner_id_link($liste_lien_voté);
-      foreach ($id_links as $id_link){
-        $article = article($id_link['id_link']);
-        ?>
-        <div class="row" style="border-top : solid;">
-          <article>
-            <a class="nav-link active" href="<?=$article['link']?>"><?="Lien = ".$article['link']?></a><br/>
-            <span><?= "Date = ".$article['date']?></span><br/>
-            <span><?="Utilisateur = ".$article['id_user']?></span><br/>
-            <span><?= "Commentaire de l'utilisateur = ".$article['comment_user']?></span><br/>
-            <a href="pagelien.php?id_link=<?=$article['id_link']?>">Ouvrir page du lien</a>
-          </arcticle>
-        </div>
-        <?php
-      }
-      ?>
-    </section>
-
-
-  </div>
-
-</body>
+  </body>
 </html>
