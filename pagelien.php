@@ -76,7 +76,6 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
     <div class="row" style="padding-top: 10px">
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
-
           <?php $pseudo=pseudo_de_user($article['id_user']);
             ?>
             <div class="container-fluid"style="padding-bottom:10px; padding-top:10px" >
