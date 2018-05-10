@@ -31,6 +31,7 @@ if(isset($_GET['value_vote'])){
   <!-- end header -->
   <section class=" corps">
     <div class="container-fluids">
+
       <!-- partie centrale -->
 
       <div class="row" style="padding-top: 10px">
@@ -66,7 +67,7 @@ if(isset($_GET['value_vote'])){
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
           <div class="card-title">
-            <h3 style="text-align: center">Tendances</h3>
+            <h3 class="titre">Tendances</h3>
           </div>
           <?php
           interaction_number_update();
@@ -78,9 +79,9 @@ if(isset($_GET['value_vote'])){
             <div class="container-fluid"style="padding-bottom:10px" >
               <div class="card" style="width: auto;">
                 <div>
-                  <a style="margin-top: 0px"class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
-                  <p style="margin-top:3px" class="titre_lien pseudo"><?="".$pseudo?></p>
-                  <p   style="margin-top:3px" class="titre_lien date"><?= "".$article['date']?></p>
+                  <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
+                  <p class="titre_lien pseudo"><?="".$pseudo?></p>
+                  <p  class="titre_lien date"><?= "".$article['date']?></p>
                 </div>
                 <div class="card-body" style="padding-top:0px">
                   <p class="card-text">
@@ -117,7 +118,7 @@ if(isset($_GET['value_vote'])){
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
           <div class="card-title">
-            <h3 style="text-align: center">Nouveautés</h3>
+            <h3 class="titre">Nouveautés</h3>
           </div>
           <?php
           $requete = "SELECT DISTINCT links.id_link FROM links JOIN comments ON links.id_link = comments.id_link
@@ -138,7 +139,6 @@ if(isset($_GET['value_vote'])){
               <div class="card" style="width: auto;">
                 <div>
                   <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
-
                   <p class="titre_lien pseudo"><?="".$pseudo?></p>
                   <p class="titre_lien date"><?= "".$article['date']?></p>
                 </div>

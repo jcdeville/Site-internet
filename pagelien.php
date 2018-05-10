@@ -66,7 +66,7 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
         <div class="col-md-6" style="margin:auto;">
           <div class="card" style="width: auto; " >
             <?php $article=article($_GET['id_link']); ?>
-            <h3 style="text-align: center"><?=$article['link_name']?></h3>
+            <h3 style="text-align:center"><?=$article['link_name']?></h3>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
             <div class="container-fluid"style="padding-bottom:10px; padding-top:10px" >
               <div class="card" style="width: auto;">
                 <div>
-                  <a class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
+                  <a class="titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
                   <p class="titre_lien pseudo"><?="".$pseudo?></p>
                   <p class="titre_lien date"><?= "".$article['date']?></p>
                 </div>
@@ -203,7 +203,7 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
                   </div>
                   <div class="card-body" style="padding-top:0px">
 
-                    <div class="card" style="margin:auto;text-align:center">
+                    <div style="margin:auto;text-align:center">
                       <?php
                         if (isset($_GET['modification'],$_GET['modifier'])) {
                            if($_GET['modification']=='commentaire' && $_GET['modifier']=='Modifier'){
@@ -219,7 +219,6 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
                             <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
                           </div>
                           </form>
-                          </p>
                           <?php
                           }
                       }
@@ -265,9 +264,6 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
           </div>
         </div>
       </div>
-
-            <!-- Affichage des boutons de modification -->
-
 
           <?php
       }

@@ -40,6 +40,11 @@ a, a:hover{
 
 }
 
+.titre{
+	text-align: center;
+	margin:auto;
+	padding-top: 5px;
+}
 .menu{
 	float: right;
 }
@@ -53,6 +58,11 @@ a, a:hover{
 .menu a:hover{
 	color: grey;
 }
+
+.zone_vote{
+height:auto;
+}
+
 /*corps*/
 
 .publication a{
@@ -68,7 +78,6 @@ a, a:hover{
 	margin-right: 10px;
   margin-left: 10px;
 	text-align: center;
-	margin-bottom: 10px;
 }
 .publication, .partage{
 	padding-top: 10px
@@ -109,7 +118,8 @@ a, a:hover{
 
 .date, .pseudo{
 	font-size: 13px;
-	margin-bottom: 3px;
+	margin-top:3px;
+
 }
 .link_vote{
 	color:black;

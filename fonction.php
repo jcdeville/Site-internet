@@ -369,7 +369,7 @@ function last_modification_date_update($id_link){
 }
 
 function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
-  <div class="card-footer">
+  <div class="card-footer zone_vote">
     <form class="form_share" action='<?=$page_web?>'  method="GET">
       <?php
       if ($type_vote=='comments') {

@@ -26,7 +26,7 @@ include("entete.php");
       <div class="row" style="padding-top: 10px">
         <div class="col-md-6" style="margin:auto;">
           <div class="card" style="width: auto; " >
-            <h3 style="text-align: center">Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
+            <h3 class="titre">Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@ include("entete.php");
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
           <div class="card-title">
-            <h3 style="text-align: center">Liens dans lesquels vous avez intéragie</h3>
+            <h3 class="titre">Liens dans lesquels vous avez intéragie</h3>
           </div>
           <?php
           $liste_lien_commenté = "SELECT DISTINCT id_link FROM comments WHERE id_user='".$_SESSION['id_user']."' ORDER BY date DESC";
@@ -46,7 +46,6 @@ include("entete.php");
     // ajouter le fait que l'utilisateur à upvoter ou donwvoter une publi
 
           $id_links = selectionner_id_link($liste_lien_commenté);
-          $id_links=$id_links+$id_links_2;
           foreach ($id_links as $id_link){
             $article = article($id_link['id_link']);
             $pseudo=pseudo_de_user($article['id_user']);
@@ -88,7 +87,7 @@ include("entete.php");
     <div class="col-md-6" style="margin:auto;">
       <div class="card" style="width: auto; " >
         <div class="card-title">
-          <h3 style="text-align: center">Vos liens</h3>
+          <h3 class="titre">Vos liens</h3>
         </div>
         <?php
         $liste_lien_posté = "SELECT DISTINCT id_link FROM links WHERE id_user='".$_SESSION['id_user']."'  ORDER BY date DESC";
