@@ -126,7 +126,56 @@ include("entete.php");
       </div>
     </div>
   </div>
+
+  <!-- favoris -->
+
+  <div class="row" style="padding-top: 10px">
+    <div class="col-md-6" style="margin:auto;">
+      <div class="card" style="width: auto; " >
+        <div class="card-title">
+          <h3 class="titre">Vos favoris</h3>
+        </div>
+        <?php
+        $liste_lien_posté = "SELECT id_link FROM favoris WHERE id_user='".$_SESSION['id_user']."'  ORDER BY date DESC";
+        $id_links = selectionner_id_link($liste_lien_posté);
+        foreach ($id_links as $id_link){
+          $article = article($id_link['id_link']);
+          $pseudo=pseudo_de_user($article['id_user']);
+
+          ?>
+          <div class="container-fluid"style="padding-bottom:10px" >
+            <div class="card" style="width: auto;">
+              <div>
+                <a style="margin-top: 0px"class=" titre_lien link_vote" href="pagelien.php?id_link=<?=$article['id_link']?>"><?="".$article['link_name']?></a>
+                <p style="margin-top:3px" class="titre_lien pseudo"><?="".$pseudo?></p>
+                <p   style="margin-top:3px" class="titre_lien date"><?= "".$article['date']?></p>
+              </div>
+              <div class="card-body" style="padding-top:0px">
+                <p class="card-text">
+                  <?= "".$article['comment_user']?>
+                </p>
+
+                <div class="card" style="margin:auto;text-align:center">
+                  <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
+              </div>
+              </div>
+
+              <?php
+             menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+               ?>
+            </div>
+          </div>
+
+          <?php
+        }
+        ?>
+      </div>
+    </div>
+  </div>
+
   </section>
+
+
 
   </body>
 </html>

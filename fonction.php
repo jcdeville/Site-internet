@@ -472,7 +472,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
     if($type_vote=='links' && lien_favoris($id_link)==NULL){
       ?><input type="submit"  class="btn btn-outline-warning" name="favoris" value="favoris"><?php
     }
-    else {
+    if($type_vote=='links' && lien_favoris($id_link)!=NULL){
       ?><input type="submit"  class="btn btn-warning" name="favoris" value="favoris"><?php
     }
     ?>
