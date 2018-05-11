@@ -3,6 +3,11 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
+
+if(isset($_GET['favoris'])){
+ ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
+ header("Location:profil.php");
+}
 ?>
 
 <body>
