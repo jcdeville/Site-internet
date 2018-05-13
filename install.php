@@ -1,8 +1,6 @@
 <?php
 include("config.php");
-
 $qDb = "CREATE DATABASE IF NOT EXISTS `projet`;";
-
 $qSelDb = "USE `projet`;";
 
 $deletTbtUsers = "DROP TABLE IF EXISTS `users`;";
@@ -19,7 +17,6 @@ $qTbUsers = "CREATE TABLE IF NOT EXISTS `users` (
 $qInitTbtUsers = "INSERT INTO `users` (`pseudo`, `mot_de_passe`, `email`) VALUES
 ('max', 'max', 'max@free.fr'),
 ('bob', 'bob', 'bob@free.fr');";
-
 
 $deletTbtLinks = "DROP TABLE IF EXISTS `links`;";
 
@@ -39,7 +36,6 @@ $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
 $qInitTbtLinks = "INSERT INTO `links` (  `link_name`,`link`, `id_user`, `comment_user`,`interaction_number`) VALUES
 ('moteur de recherche','https://www.google.fr/', 1, 'Je viens d\'ajouter le lien de google',0);";
 
-
 $deletTbtComments = "DROP TABLE IF EXISTS `comments`;";
 
 $qTbComments = "CREATE TABLE IF NOT EXISTS `comments` (
@@ -52,10 +48,8 @@ $qTbComments = "CREATE TABLE IF NOT EXISTS `comments` (
   KEY `id_user` (`id_user`),
   KEY `id_link` (`id_link`)
 ) ENGINE=InnoDB;";
-
 $qInitTbtComments = "INSERT INTO `comments` (`id_user`, `id_link`, `content_comment`) VALUES
 (2, 1, 'Excellent site pour faire des recherches!');";
-
 
 $deletTbtVotes = "DROP TABLE IF EXISTS `votes`;";
 
@@ -87,9 +81,6 @@ $qTbFavoris = "CREATE TABLE IF NOT EXISTS `favoris` (
   KEY `id_link` (`id_link`)
 ) ENGINE=InnoDB;";
 
-
-
-
 echo "Connexion au serveur MySQL.</br>";
 $connexion = mysqli_connect($GLOBALS['dbServ'], $GLOBALS['dbUser'], $GLOBALS['dbPass'], $GLOBALS['dbName']);
 echo "Création de la table users.</br>";
@@ -108,10 +99,8 @@ echo "Création de la table votes.</br>";
 mysqli_query($connexion, $deletTbtVotes);
 mysqli_query($connexion, $qTbVotes);
 mysqli_query($connexion, $qInitTbtVotes);
-
 echo "Création de la table favoris.</br>";
 mysqli_query($connexion, $deletTbtFavoris);
 mysqli_query($connexion, $qTbFavoris);
-
 mysqli_close($connexion);
 ?>

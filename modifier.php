@@ -3,7 +3,6 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
-
 if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'])){
   if(droit($_GET['id_link'],'link')==true){
     last_modification_date_update($_GET['id_link']);
@@ -32,7 +31,6 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'])){
 
     <h1>Page de modification</h1>
     <?php menu();
-
     if($_GET['modification']=='lien'){
       ?>
 

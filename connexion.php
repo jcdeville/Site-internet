@@ -32,7 +32,6 @@ include("entete.php");
            </div>
           </div>
         <?php
-
       }
       else{
         $connexion = connexion();
@@ -41,7 +40,6 @@ include("entete.php");
         $resultat = mysqli_fetch_assoc($action);
         mysqli_free_result($action);
         mysqli_close($connexion);
-
         if ($resultat){
           if($_POST['mot_de_passe']==$resultat['mot_de_passe']){
             $_SESSION['id_user'] = $resultat['id_user'];

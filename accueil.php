@@ -3,22 +3,20 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
-
 if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
   ajouter_article($_GET['link_name'],$_GET['link'],$_GET['commentaire']);
 }
-
 if(isset($_GET['value_vote'])){
- last_modification_date_update($_GET['id_link']);
- ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
- header("Location:accueil.php");
+  last_modification_date_update($_GET['id_link']);
+  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+  header("Location:accueil.php");
+  exit;
 }
-
 if(isset($_GET['favoris'])){
- ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
- header("Location:accueil.php");
+  ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
+  header("Location:accueil.php");
+  exit;
 }
-
 ?>
 
 
@@ -96,13 +94,12 @@ if(isset($_GET['favoris'])){
 
                   <div class="card" style="margin:auto;text-align:center">
                     <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
-                </div>
+                  </div>
                 </div>
 
-<?php
-               menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
-
-                 ?>
+                <?php
+                menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+                ?>
               </div>
             </div>
 
@@ -136,7 +133,14 @@ if(isset($_GET['favoris'])){
           SELECT DISTINCT links.id_link FROM links JOIN votes ON links.id_link = votes.id_link
           WHERE votes.id_user = '".$_SESSION['id_user']."'
           AND votes.date >= DATE_SUB(NOW(),INTERVAL 24 HOUR)
+          AND links.last_modification_date >= (SELECT date FROM users WHERE id_user = '".$_SESSION['id_user']."')
+          UNION
+          SELECT DISTINCT links.id_link FROM links JOIN favoris ON links.id_link = favoris.id_link
+          WHERE favoris.id_user = '".$_SESSION['id_user']."'
+          AND favoris.date >= DATE_SUB(NOW(),INTERVAL 24 HOUR)
           AND links.last_modification_date >= (SELECT date FROM users WHERE id_user = '".$_SESSION['id_user']."')";
+
+
           $action = selectionner_id_link($requete);
           foreach ($action as $resultat){
             $article = article($resultat['id_link']);
