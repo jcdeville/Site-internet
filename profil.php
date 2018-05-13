@@ -38,7 +38,7 @@ if(isset($_GET['value_vote'])){
       <div class="row" style="padding-top: 10px">
         <div class="col-md-6" style="margin:auto;">
           <div class="card" style="width: auto; padding-bottom: 10px" >
-            <h3 style="text-align:center">Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
+            <h3 style="text-align:center ; margin:auto; padding-top:2px" >Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ if(isset($_GET['value_vote'])){
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
           <div class="card-title">
-            <h3 class="titre">Liens dans lesquels vous avez intéragie</h3>
+            <h3 class="titre">Liens dans lesquels vous avez intéragi</h3>
           </div>
           <?php
 
@@ -67,7 +67,7 @@ if(isset($_GET['value_vote'])){
             AND favoris.date = (SELECT MAX(date) FROM favoris WHERE id_link = links.id_link))
             AS list_lien
             GROUP BY id_link
-            ORDER BY date DESC
+            ORDER BY date 
             ";
 
             $id_links = selectionner_id_link($requete);
