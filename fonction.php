@@ -386,7 +386,6 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         if (valeur_vote_de_user($type_vote,$id_object)=='upvote' ) {
           ?>
           <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
-
           <?php
         }
         else{
@@ -424,7 +423,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         if (valeur_vote_de_user($type_vote,$id_link)=='downvote' ) {
           ?>
           <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
-          
+
         <?php  }
         else {?>
           <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
@@ -436,7 +435,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         ?><input type="submit"  class="btn btn-outline-warning" name="favoris" value="favoris"><?php
       }
       if($type_vote=='links' && lien_favoris($id_link)!=NULL){
-        ?><input type="submit"  class="btn btn-warning" name="favoris" value="favoris"><?php
+        ?><input  type="submit"  class="btn btn-warning" name="favoris" value="favoris"><?php
       }
       ?>
     </form>

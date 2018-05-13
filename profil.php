@@ -3,8 +3,15 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
+
 if(isset($_GET['favoris'])){
   ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
+  header("Location:profil.php");
+  exit;
+}
+if(isset($_GET['value_vote'])){
+  last_modification_date_update($_GET['id_link']);
+  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
   header("Location:profil.php");
   exit;
 }
@@ -31,7 +38,7 @@ if(isset($_GET['favoris'])){
       <div class="row" style="padding-top: 10px">
         <div class="col-md-6" style="margin:auto;">
           <div class="card" style="width: auto; padding-bottom: 10px" >
-            <h3 class="titre">Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
+            <h3 style="text-align:center">Bonjour <?php echo $_SESSION['pseudo'] ?></h3>
           </div>
         </div>
       </div>
@@ -86,7 +93,7 @@ if(isset($_GET['favoris'])){
                   </div>
 
                   <?php
-                  menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+                  menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
@@ -132,7 +139,7 @@ if(isset($_GET['favoris'])){
                   </div>
 
                   <?php
-                  menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+                  menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
@@ -177,7 +184,7 @@ if(isset($_GET['favoris'])){
                   </div>
 
                   <?php
-                  menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
+                  menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
