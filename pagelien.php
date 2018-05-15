@@ -3,6 +3,7 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
+
 if (isset($_GET['kill_article'])){
   supprimer_article($_GET['id_link']);
 }
@@ -18,17 +19,21 @@ if(isset($_GET['vote_comment'])){
   last_modification_date_update($_GET['id_link']);
   ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
 }
-if(isset($_GET['value_vote'])){
-  last_modification_date_update($_GET['id_link']);
-  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
-  header("Location:pagelien.php?id_link=".$_GET['id_link']."");
-  exit;
+if(isset($_GET['value_vote'],$_GET['type_vote'])){
+  if($_GET['type_vote']=='links'){
+    last_modification_date_update($_GET['id_link']);
+    ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+    header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+    exit;
+  }
 }
-if(isset($_GET['value_vote'])){
-  last_modification_date_update($_GET['id_link']);
-  ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
-  header("Location:pagelien.php?id_link=".$_GET['id_link']."");
-  exit;
+if(isset($_GET['value_vote'],$_GET['type_vote'])){
+  if($_GET['type_vote']=='comments'){
+    last_modification_date_update($_GET['id_link']);
+    ajouter_vote($_GET['id_link'],'comments',$_GET['id_comment'],$_GET['value_vote']);
+    header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+    exit;
+  }
 }
 if (isset($_GET['id_link'],$_GET['link'],$_GET['comment_user'],$_GET['modification'],$_GET['modifier'])){
   if(droit($_GET['id_link'],'link')==true){
@@ -45,6 +50,7 @@ if(isset($_GET['id_comment'],$_GET['id_link'],$_GET['content_comment'],$_GET['mo
 if(isset($_GET['favoris'])){
   ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
   header("Location:pagelien.php?id_link=".$_GET['id_link']."");
+  exit;
 }
 ?>
 

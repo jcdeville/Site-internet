@@ -9,11 +9,13 @@ if(isset($_GET['favoris'])){
   header("Location:profil.php");
   exit;
 }
-if(isset($_GET['value_vote'])){
-  last_modification_date_update($_GET['id_link']);
-  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
-  header("Location:profil.php");
-  exit;
+if(isset($_GET['value_vote'],$_GET['type_vote'])){
+  if($_GET['type_vote']=='links'){
+    last_modification_date_update($_GET['id_link']);
+    ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+    header("Location:profil.php");
+    exit;
+  }
 }
 ?>
 
@@ -67,7 +69,7 @@ if(isset($_GET['value_vote'])){
             AND favoris.date = (SELECT MAX(date) FROM favoris WHERE id_link = links.id_link))
             AS list_lien
             GROUP BY id_link
-            ORDER BY date 
+            ORDER BY date
             ";
 
             $id_links = selectionner_id_link($requete);

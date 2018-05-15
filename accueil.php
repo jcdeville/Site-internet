@@ -3,14 +3,17 @@ session_start();
 require("fonction.php");
 testacces();
 include("entete.php");
+
 if (isset($_GET['link_name'],$_GET['link'],$_GET['commentaire'])){
   ajouter_article($_GET['link_name'],$_GET['link'],$_GET['commentaire']);
 }
-if(isset($_GET['value_vote'])){
-  last_modification_date_update($_GET['id_link']);
-  ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
-  header("Location:accueil.php");
-  exit;
+if(isset($_GET['value_vote'],$_GET['type_vote'])){
+  if($_GET['type_vote']=='links'){
+    last_modification_date_update($_GET['id_link']);
+    ajouter_vote($_GET['id_link'],'links',$_GET['id_link'],$_GET['value_vote']);
+    header("Location:accueil.php");
+    exit;
+  }
 }
 if(isset($_GET['favoris'])){
   ajouter_favoris($_GET['id_link'],'links',$_GET['id_link']);
@@ -18,8 +21,6 @@ if(isset($_GET['favoris'])){
   exit;
 }
 ?>
-
-
 
 <body>
   <!-- header -->

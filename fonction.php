@@ -1,5 +1,6 @@
 <?php
 include('config.php');
+
 // Permet de se connecter à la base de donnée
 function connexion(){
   $connexion = mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass'],$GLOBALS['dbName']);
@@ -128,7 +129,6 @@ function ajouter_article($link_name,$link,$commentaire){
 }
 // Modifier un lien et son commentaire
 function modifier_article($id_link,$link,$comment_user){
-
   $connexion = connexion();
   $comment_user = addslashes($comment_user);
   $requete = "UPDATE links SET link = '".$link."', comment_user = '".$comment_user."', date = NOW(), last_modification_date = NOW() WHERE id_link = '".$id_link."'";
@@ -291,42 +291,7 @@ function ajouter_favoris($id_link){
     mysqli_close($connexion);
   }
 }
-// Affiche une zone de vote pour le commentaire et affiche le vote de l'utilisteur si il a déjà voté
-function zone_de_vote($id_link,$type_vote,$id_object){
-  ?>
-  <div style="border:solid; margin:10px; padding:15px;">
-    <p>Zone de vote</p>
 
-    <form action="pagelien.php" method="GET">
-      <?php
-      if($type_vote=='comments'){
-        ?>
-        <input type='hidden' name='id_link' value='<?=$id_link?>'>
-        <input type='hidden' name='id_comment' value='<?=$id_object?>'>
-        <input type="radio" name="value_vote" value="upvote" <?php if(valeur_vote_de_user('comments',$id_object)=="upvote") { echo 'checked="checked"' ; } ?>>upvote
-        <input type="radio" name="value_vote" value="downvote" <?php if(valeur_vote_de_user('comments',$id_object)=="downvote") { echo 'checked="checked"' ; } ?>>downvote
-        <input type="submit" name="vote_comment" value="Voter">
-        <?php
-      }
-      if($type_vote=='links'){
-        ?>
-        <input type='hidden' name='id_link' value='<?=$id_link?>'>
-        <input type="radio" name="value_vote" value="upvote" <?php if(valeur_vote_de_user('links',$id_object)=="upvote") { echo 'checked="checked"' ; } ?>>upvote
-        <input type="radio" name="value_vote" value="downvote" <?php if(valeur_vote_de_user('links',$id_object)=="downvote") { echo 'checked="checked"' ; } ?>>downvote
-        <input type="submit" name="vote_lien" value="Voter">
-        <?php
-      }
-      ?>
-    </form>
-
-    <div style="border:solid; margin:10px; padding:15px;">
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'upvote')?> votes upvotes</p>
-      <p>Il y a <?=compteur_vote($type_vote,$id_object,'downvote')?> votes downvotes</p>
-    </div>
-
-  </div>
-  <?php
-}
 // Renvoie le nombre de votes upvotes ou downvotes associés à un commentaire
 function compteur_vote($type_vote,$id_object,$value_vote){
   $connexion = connexion();
@@ -374,6 +339,8 @@ function last_modification_date_update($id_link){
   mysqli_stmt_execute($action);
   mysqli_close($connexion);
 }
+
+// Affiche les boutons pour voter un lien ou un commentaire et mettre en favoris un lien
 function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
   <div class="card-footer zone_vote">
     <form class="form_share" action='<?=$page_web?>'  method="GET">
@@ -382,6 +349,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         ?>
         <input type='hidden' name='id_comment' value='<?=$id_object?>'>
         <input type='hidden' name='id_link' value='<?=$id_link?>'>
+        <input type='hidden' name='type_vote' value='comments'>
         <?php
         if (valeur_vote_de_user($type_vote,$id_object)=='upvote' ) {
           ?>
@@ -406,6 +374,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
       else{
         ?>
         <input type='hidden' name='id_link' value='<?=$id_link?>'>
+        <input type='hidden' name='type_vote' value='links'>
         <?php
         if (valeur_vote_de_user($type_vote,$id_link)=='upvote' ) {
           ?>
