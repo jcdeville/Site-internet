@@ -23,7 +23,7 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
   <!-- header -->
   <header class="container-fluid header">
     <div class="container">
-      <a href="#" class="logo">nom du site</a>
+      <a href="#" class="logo">share it</a>
       <nav class="menu">
         <a href="accueil.php">Accueil</a>
         <a href="connexion.php?deconnexion=ok">Déconnexion</a>
@@ -69,7 +69,7 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
             AND favoris.date = (SELECT MAX(date) FROM favoris WHERE id_link = links.id_link))
             AS list_lien
             GROUP BY id_link
-            ORDER BY date
+            ORDER BY date DESC
             ";
 
             $id_links = selectionner_id_link($requete);

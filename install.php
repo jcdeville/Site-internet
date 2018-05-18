@@ -28,7 +28,7 @@ $qTbLinks = "CREATE TABLE IF NOT EXISTS `links` (
   `comment_user` text NOT NULL,
   `interaction_number` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_modification_date` timestamp NOT NULL,
+  `last_modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_link`),
   KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB;";

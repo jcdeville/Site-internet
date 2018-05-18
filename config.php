@@ -2,11 +2,11 @@
 
 // Database configuration
 $GLOBALS['dbServ'] = 'localhost';
-$GLOBALS['dbUser'] = 'jcdeville';
-$GLOBALS['dbPass'] = '82ze81pu';
-$GLOBALS['dbName'] = 'jcdeville';
+$GLOBALS['dbUser'] = 'root';
+$GLOBALS['dbPass'] = '';
+$GLOBALS['dbName'] = 'projet_web';
 
 // Blog configuration
-$GLOBALS['blogTitle'] = 'Nom du site';
+$GLOBALS['blogTitle'] = 'share it';
 
 ?>

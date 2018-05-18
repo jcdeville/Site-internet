@@ -398,7 +398,7 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
           <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
 
         <?php  }
-        echo compteur_vote($type_vote,$id_link,'downvote');
+        ?> <span style="padding-right:5px;"> <?php echo compteur_vote($type_vote,$id_link,'downvote');?> <span><?php
       }
       if($type_vote=='links' && lien_favoris($id_link)==NULL){
         ?><input type="submit"  class="btn btn-outline-warning" name="favoris" value="favoris"><?php

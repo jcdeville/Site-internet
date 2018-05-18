@@ -26,7 +26,7 @@ if(isset($_GET['favoris'])){
   <!-- header -->
   <header class="container-fluid header">
     <div class="container">
-      <a href="#" class="logo">nom du site</a>
+      <a href="#" class="logo">share it</a>
       <nav class="menu">
         <a href="profil.php">Profil</a>
         <a href="connexion.php?deconnexion=ok">Déconnexion</a>
