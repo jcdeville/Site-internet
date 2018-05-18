@@ -23,7 +23,7 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
   <!-- header -->
   <header class="container-fluid header">
     <div class="container">
-      <a href="#" class="logo">share it</a>
+      <a href="accueil.php" class="logo">share it</a>
       <nav class="menu">
         <a href="accueil.php">Accueil</a>
         <a href="connexion.php?deconnexion=ok">Déconnexion</a>

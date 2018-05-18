@@ -9,7 +9,7 @@ include("entete.php");
   <!-- header -->
   <header class="container-fluid header">
     <div class="container">
-      <a href="#" class="logo">share it</a>
+      <a href="accueil.php" class="logo">share it</a>
       <nav class="menu">
           <a href="inscription.php">Vous ne possedez pas encore de compte ? S'inscrire</a>
       </nav>

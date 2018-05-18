@@ -5,7 +5,7 @@ include("entete.php");
 <!-- header -->
 <header class="container-fluid header">
   <div class="container">
-    <a href="#" class="logo">share it</a>
+    <a href="accueil.php" class="logo">share it</a>
     <nav class="menu">
       <a href="connexion.php">Vous avez déja un compte ? Se connecter</a>
     </nav>
