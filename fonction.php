@@ -379,24 +379,20 @@ function menu_vote($type_vote,$page_web,$id_link,$id_object){?>
         if (valeur_vote_de_user($type_vote,$id_link)=='upvote' ) {
           ?>
           <input type="submit"  class="btn btn-success" name="value_vote" value="upvote">
-
           <?php
         }
         else{
           ?>
           <input type="submit"  class="btn btn-outline-success" name="value_vote" value="upvote">
-
           <?php
         }
         echo compteur_vote($type_vote,$id_link,'upvote');
         if (valeur_vote_de_user($type_vote,$id_link)=='downvote' ) {
           ?>
           <input type="submit"  class="btn btn-danger" name="value_vote" value="downvote">
-
         <?php  }
         else {?>
           <input type="submit"  class="btn btn-outline-danger" name="value_vote" value="downvote">
-
         <?php  }
         ?> <span style="padding-right:5px;"> <?php echo compteur_vote($type_vote,$id_link,'downvote');?> <span><?php
       }

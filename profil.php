@@ -36,7 +36,6 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
   <section class=" corps">
     <div class="container-fluids">
       <!-- partie centrale -->
-
       <div class="row" style="padding-top: 10px">
         <div class="col-md-6" style="margin:auto;">
           <div class="card" style="width: auto; padding-bottom: 10px" >
@@ -46,7 +45,7 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
       </div>
     </div>
 
-    <!-- liste des liens dans lesquels l'utilisateur à intéragie-->
+    <!-- liste des liens dans lesquels l'utilisateur à intéragi-->
     <div class="row" style="padding-top: 10px">
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
@@ -54,7 +53,6 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
             <h3 class="titre">Liens dans lesquels vous avez intéragi</h3>
           </div>
           <?php
-
           $requete = "SELECT id_link,date FROM
           (SELECT links.id_link AS id_link,comments.date AS date FROM links JOIN comments ON links.id_link = comments.id_link
             WHERE comments.id_user = '".$_SESSION['id_user']."'
@@ -71,7 +69,6 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
             GROUP BY id_link
             ORDER BY date DESC
             ";
-
             $id_links = selectionner_id_link($requete);
             foreach ($id_links as $id_link){
               $article = article($id_link['id_link']);
@@ -88,22 +85,18 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
                     <p class="card-text">
                       <?= "".$article['comment_user']?>
                     </p>
-
                     <div class="card" style="margin:auto;text-align:center">
                       <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                     </div>
                   </div>
-
                   <?php
                   menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
-
               <?php
             }
             ?>
-
           </div>
         </div>
       </div>
@@ -134,18 +127,15 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
                     <p class="card-text">
                       <?= "".$article['comment_user']?>
                     </p>
-
                     <div class="card" style="margin:auto;text-align:center">
                       <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                     </div>
                   </div>
-
                   <?php
                   menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
-
               <?php
             }
             ?>
@@ -179,28 +169,21 @@ if(isset($_GET['value_vote'],$_GET['type_vote'])){
                     <p class="card-text">
                       <?= "".$article['comment_user']?>
                     </p>
-
                     <div class="card" style="margin:auto;text-align:center">
                       <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                     </div>
                   </div>
-
                   <?php
                   menu_vote('links','profil.php',$article['id_link'],$article['id_link']);
                   ?>
                 </div>
               </div>
-
               <?php
             }
             ?>
           </div>
         </div>
       </div>
-
     </section>
-
-
-
   </body>
   </html>

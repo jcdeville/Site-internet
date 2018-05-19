@@ -1,12 +1,9 @@
 @charset "UTF-8";
 
-/*font-family: 'Roboto', sans-serif;*/
-
 body, html {
 	padding: 0;
 	margin: 0;
 	background-color:  #E7EAEB;
-
 }
 
 a, a:hover{
@@ -30,14 +27,12 @@ a, a:hover{
 	line-height: 50px; /*center vertical*/
 }
 
-
 .logo{
 	color: white;
 	text-transform: uppercase; /*maj*/
 	font-weight: bold;
 	letter-spacing: 1px;
 	float: left;
-
 }
 
 .titre{
@@ -45,6 +40,7 @@ a, a:hover{
 	margin:auto;
 	padding-top: 5px;
 }
+
 .menu{
 	float: right;
 }
@@ -52,7 +48,6 @@ a, a:hover{
 .menu a{
 	color: white;
 	margin-right:20px;
-
 }
 
 .menu a:hover{
@@ -63,13 +58,11 @@ a, a:hover{
 	height:auto;
 }
 
-/*corps*/
 
 .publication a{
 	color: black;
 }
 
-/* partager un lien */
 .input_share{
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -113,7 +106,6 @@ a, a:hover{
 	padding-top: 10px;
 	padding-left: 10px;
 	float: left;
-
 }
 
 .date, .pseudo{
@@ -124,7 +116,6 @@ a, a:hover{
 .link_vote{
 	color:black;
 }
-/*page lien*/
 
 .page_lien{
 	margin: auto;
@@ -132,5 +123,4 @@ a, a:hover{
 
 .espace_com{
 	padding-top: 10px;
-
 }

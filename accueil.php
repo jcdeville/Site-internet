@@ -92,32 +92,23 @@ if(isset($_GET['favoris'])){
                   <p class="card-text">
                     <?= "".$article['comment_user']?>
                   </p>
-
                   <div class="card" style="margin:auto;text-align:center">
                     <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                   </div>
                 </div>
-
                 <?php
                 menu_vote('links','accueil.php',$article['id_link'],$article['id_link']);
                 ?>
               </div>
             </div>
-
             <?php
           }
           ?>
-
         </div>
       </div>
     </div>
 
-
-
-
     <!-- Partie pour visualisé tous les articles postés il y a 24 heures -->
-
-
 
     <div class="row" style="padding-top: 10px">
       <div class="col-md-6" style="margin:auto;">
@@ -141,7 +132,6 @@ if(isset($_GET['favoris'])){
           AND favoris.date >= DATE_SUB(NOW(),INTERVAL 24 HOUR)
           AND links.last_modification_date >= (SELECT date FROM users WHERE id_user = '".$_SESSION['id_user']."')";
 
-
           $action = selectionner_id_link($requete);
           foreach ($action as $resultat){
             $article = article($resultat['id_link']);
@@ -158,21 +148,16 @@ if(isset($_GET['favoris'])){
                   <p class="card-text">
                     <?= "".$article['comment_user']?>
                   </p>
-
                   <div class="card" style="margin:auto;text-align:center">
                     <a class="nav-link link_vote"  href="<?=$article['link']?>"><?="".$article['link']?></a>
                   </div>
                 </div>
-
                 <?php menu_vote('links','accueil.php',$article['id_link'],$article['id_link']) ;?>
-
               </div>
             </div>
-
             <?php
           }
           ?>
-
         </div>
       </div>
     </div>

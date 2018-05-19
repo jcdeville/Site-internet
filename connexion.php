@@ -15,8 +15,9 @@ include("entete.php");
       </nav>
     </div>
   </header>
-  <!-- end header -->
 
+
+    <!-- formulaire -->
 
       <?php
       if (!isset($_POST['pseudo'],$_POST['mot_de_passe'])){
@@ -26,8 +27,8 @@ include("entete.php");
               <h2>Se connecter à ...</h2>
             <form class="container" method="POST" >
               <input class="input_co" type="text" name="pseudo" placeholder="pseudo" required>
-               <input  class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe" required>
-                <input type="submit" value="Se connecter" class="btn btn-primary pull-right input_co" required>
+              <input  class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe" required>
+              <input type="submit" value="Se connecter" class="btn btn-primary pull-right input_co" required>
             </form>
            </div>
           </div>
@@ -45,14 +46,12 @@ include("entete.php");
             $_SESSION['id_user'] = $resultat['id_user'];
             $_SESSION['pseudo'] = $_POST['pseudo'];
             ?>
-
             <script>
             var name='<?php echo $_SESSION['pseudo'] ?>';
             var stay=alert("Connexion réussi, Bonjour "+name)
             if (!stay)
             window.location="accueil.php"
             </script>
-
             <?php
           }
         }
@@ -65,10 +64,7 @@ include("entete.php");
         <?php
       }
       ?>
-
     </section>
-
   </div>
-
 </body>
 </html>

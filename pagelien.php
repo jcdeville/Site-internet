@@ -81,7 +81,7 @@ if(isset($_GET['favoris'])){
       </div>
     </div>
 
-
+    <!-- affichage du lien -->
     <div class="row" style="padding-top: 10px">
       <div class="col-md-6" style="margin:auto;">
         <div class="card" style="width: auto; " >
@@ -126,10 +126,7 @@ if(isset($_GET['favoris'])){
                 </div>
                 <?php
               } ?>
-
             </div>
-
-
             <?php
             menu_vote('links','pagelien.php',$_GET['id_link'],$_GET['id_link']);
             if(droit($_GET['id_link'],'link')==true){
@@ -143,7 +140,6 @@ if(isset($_GET['favoris'])){
                     </form>
                   </div>
                   <?php if (!isset($_GET['modification'],$_GET['modifier'])) { ?>
-
                     <div class="col-md-6" style="text-align:center">
                       <form action="pagelien.php" method="GET">
                         <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
@@ -154,7 +150,6 @@ if(isset($_GET['favoris'])){
                     </div>
                   <?php } ?>
                 </div>
-
                 <?php
               }
               ?>
@@ -174,111 +169,97 @@ if(isset($_GET['favoris'])){
       </div>
     </div>
   </div>
-</div>
 
 <!-- Partie pour ajouté un article -->
-<div class="row" style="padding-top:10px">
-  <div class="col-md-6" style="margin:auto;">
-    <div class="card" style="padding-top: 10px;width: auto;">
-      <form class="form_share" action="pagelien.php"  method="GET" >
-        <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-
-        <div class="input-group">
-          <textarea style="padding-bottom:30px" class="form-control"type="text" name="commentaire" placeholder="Commenter le lien" required></textarea>
-        </div>
-        <input style="width:auto;" type="submit" value="Commenter" class="input_share btn btn-primary pull-right"required>
-      </form>
-    </div>
-  </div>
-</div>
-
-<?php
-$commentaires = commentaires($_GET['id_link']);
-foreach ($commentaires as $commentaire){
-  ?>
-
-  <!-- Affichage du commentaire -->
-
-
-  <div class="row" style="padding-top: 10px">
+  <div class="row" style="padding-top:10px">
     <div class="col-md-6" style="margin:auto;">
-      <div class="card" style="width: auto; " >
-        <div class="container-fluid"style="padding-bottom:10px; padding-top:10px" >
-          <div class="card" style="width: auto;">
-            <div >
-              <a  class="titre_lien"href=""><?="".pseudo_de_user($commentaire['id_user'])?></a>
-              <p class="titre_lien date"><?= "".$commentaire['date']?></p>
-
-            </div>
-            <div class="card-body" style="padding-top:0px">
-
-              <div style="margin:auto;text-align:center">
-                <?php
-                if (isset($_GET['modification'],$_GET['modifier'])) {
-                  if($_GET['modification']=='commentaire' && $_GET['modifier']=='Modifier'){
-                    ?>
-                    <form class="" action="pagelien.php" method="get">
-                      <div class="">
-                        <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                        <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                        <input type='hidden' name='modification' value='commentaire'>
-                        <textarea  class="form-control" style="padding-bottom:30px" type="text" name="content_comment" value="" required><?=$commentaire['content_comment']?></textarea>
-                      </div>
-                      <div style="padding-top:10px">
-                        <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
-                      </div>
-                    </form>
-                    <?php
-                  }
-                }
-                else {?>
-                  <a> <?= "".$commentaire['content_comment']?></a>
-                  <?php
-                } ?>
-              </div>
-            </div>
-            <?php menu_vote('comments','pagelien.php',$_GET['id_link'],$commentaire['id_comment']); ?>
-            <?php
-            if(droit($commentaire['id_comment'],'comment')==true){
-              ?>
-              <div class="card-footer" >
-                <div class="row">
-                  <div class="col-md-6" style="text-align:center">
-                    <form action="pagelien.php" method="GET" style="">
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                      <input type="submit"class="btn btn-primary" name="kill_comment" value="Supprimer le commentaire">
-
-                    </form>
-                  </div>
-                  <div class="col-md-6" style="text-align:center">
-
-                    <form action="pagelien.php" method="GET" >
-                      <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
-                      <input type='hidden' name='modification' value='commentaire'>
-                      <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
-                      <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
-                    </form>
-                  </div>
-                </div>
-
-
-              </div>
-              <?php
-            }
-            ?>
-
+      <div class="card" style="padding-top: 10px;width: auto;">
+        <form class="form_share" action="pagelien.php"  method="GET" >
+          <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+          <div class="input-group">
+            <textarea style="padding-bottom:30px" class="form-control"type="text" name="commentaire" placeholder="Commenter le lien" required></textarea>
           </div>
-        </div>
+          <input style="width:auto;" type="submit" value="Commenter" class="input_share btn btn-primary pull-right"required>
+        </form>
       </div>
     </div>
   </div>
 
-  <?php
-}
-?>
-</section>
+<!-- Affichage du commentaire -->
 
-</div>
+  <?php
+  $commentaires = commentaires($_GET['id_link']);
+  foreach ($commentaires as $commentaire){
+    ?>
+    <div class="row" style="padding-top: 10px">
+      <div class="col-md-6" style="margin:auto;">
+        <div class="card" style="width: auto; " >
+          <div class="container-fluid"style="padding-bottom:10px; padding-top:10px" >
+            <div class="card" style="width: auto;">
+              <div >
+                <a  class="titre_lien"href=""><?="".pseudo_de_user($commentaire['id_user'])?></a>
+                <p class="titre_lien date"><?= "".$commentaire['date']?></p>
+              </div>
+              <div class="card-body" style="padding-top:0px">
+                <div style="margin:auto;text-align:center">
+                  <?php
+                  if (isset($_GET['modification'],$_GET['modifier'])) {
+                    if($_GET['modification']=='commentaire' && $_GET['modifier']=='Modifier'){
+                      ?>
+                      <form class="" action="pagelien.php" method="get">
+                        <div class="">
+                          <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                          <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                          <input type='hidden' name='modification' value='commentaire'>
+                          <textarea  class="form-control" style="padding-bottom:30px" type="text" name="content_comment" value="" required><?=$commentaire['content_comment']?></textarea>
+                        </div>
+                        <div style="padding-top:10px">
+                          <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
+                        </div>
+                      </form>
+                      <?php
+                    }
+                  }
+                  else {?>
+                    <a> <?= "".$commentaire['content_comment']?></a>
+                    <?php
+                  } ?>
+                </div>
+              </div>
+              <?php menu_vote('comments','pagelien.php',$_GET['id_link'],$commentaire['id_comment']); ?>
+              <?php
+              if(droit($commentaire['id_comment'],'comment')==true){
+                ?>
+                <div class="card-footer" >
+                  <div class="row">
+                    <div class="col-md-6" style="text-align:center">
+                      <form action="pagelien.php" method="GET" style="">
+                        <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                        <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                        <input type="submit"class="btn btn-primary" name="kill_comment" value="Supprimer le commentaire">
+                      </form>
+                    </div>
+                    <div class="col-md-6" style="text-align:center">
+                      <form action="pagelien.php" method="GET" >
+                        <input type='hidden' name='id_link' value='<?=$_GET['id_link']?>'>
+                        <input type='hidden' name='modification' value='commentaire'>
+                        <input type='hidden' name='id_comment' value='<?=$commentaire['id_comment']?>'>
+                        <input type="submit" class="btn btn-primary" name="modifier" value="Modifier">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <?php
+              }
+              ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <?php
+    }
+    ?>
+  </section>
 </body>
 </html>
