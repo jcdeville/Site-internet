@@ -20,13 +20,13 @@ include("entete.php");
     <!-- formulaire -->
 
       <?php
-      if (!isset($_POST['pseudo'],$_POST['mot_de_passe'])){
+      if (!isset($_POST['email'],$_POST['mot_de_passe'])){
         ?>
         <div class="container-fluid " >
            <div class=" col-md-4 inscription">
               <h2>Se connecter à ...</h2>
             <form class="container" method="POST" >
-              <input class="input_co" type="text" name="pseudo" placeholder="pseudo" required>
+              <input class="input_co" type="email" name="email" placeholder="Adresse mail" required>
               <input  class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe" required>
               <input type="submit" value="Se connecter" class="btn btn-primary pull-right input_co" required>
             </form>
@@ -36,7 +36,7 @@ include("entete.php");
       }
       else{
         $connexion = connexion();
-        $requete = "SELECT id_user, mot_de_passe FROM users WHERE pseudo='".$_POST['pseudo']."'";
+        $requete = "SELECT id_user,pseudo, mot_de_passe FROM users WHERE email='".$_POST['email']."'";
         $action = mysqli_query($connexion,$requete);
         $resultat = mysqli_fetch_assoc($action);
         mysqli_free_result($action);
@@ -44,7 +44,7 @@ include("entete.php");
         if ($resultat){
           if($_POST['mot_de_passe']==$resultat['mot_de_passe']){
             $_SESSION['id_user'] = $resultat['id_user'];
-            $_SESSION['pseudo'] = $_POST['pseudo'];
+            $_SESSION['pseudo'] = $resultat['pseudo'];
             ?>
             <script>
             var name='<?php echo $_SESSION['pseudo'] ?>';

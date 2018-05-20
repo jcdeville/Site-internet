@@ -54,7 +54,7 @@ include("entete.php");
         <!-- <input type="text" name="nom" placeholder="Nom">
         <input type="text" name="prénom" placeholder="Prénom"> -->
         <input class="input_co" type="text" name="pseudo" placeholder="Nom d'utilisateur (4 caractères minimum)"required>
-        <input class="input_co" type="email" name="email" placeholder="Adresse mail" >
+        <input class="input_co" type="email" name="email" placeholder="Adresse mail" required>
         <input class="input_co" type="password" name="mot_de_passe" placeholder="Mot de passe (6 caractères minimum)"required>
         <input class="input_co" type="password" name="confirmation_mot_de_passe" placeholder="Confirmation du mot de passe" required>
         <input type="submit" value="S'inscrire" class=" input_co btn btn-primary pull-right"required>
